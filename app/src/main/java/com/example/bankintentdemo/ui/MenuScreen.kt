@@ -24,10 +24,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,44 +38,10 @@ import com.example.bankintentdemo.model.MenuItem
 import com.example.bankintentdemo.model.MenuSection
 import com.example.bankintentdemo.model.MenuSectionLayout
 
-private sealed interface MenuScreenState {
-    data object Menu : MenuScreenState
-    data object MainPlaceholder : MenuScreenState
-    data class Pending(val category: String, val title: String) : MenuScreenState
-}
-
 @Composable
-fun MenuScreen() {
-    var screenState by remember { mutableStateOf<MenuScreenState>(MenuScreenState.Menu) }
-
-    when (val state = screenState) {
-        MenuScreenState.Menu -> MenuContent(
-            onClose = { screenState = MenuScreenState.MainPlaceholder },
-            onItemClick = { category, item ->
-                screenState = MenuScreenState.Pending(category, item.title)
-            }
-        )
-
-        MenuScreenState.MainPlaceholder -> PlaceholderScreen(
-            title = "메인화면",
-            message = "X 버튼을 누르면 이동할 메인 화면 자리입니다.",
-            buttonText = "전체 메뉴 다시 보기",
-            onButtonClick = { screenState = MenuScreenState.Menu }
-        )
-
-        is MenuScreenState.Pending -> PlaceholderScreen(
-            title = state.title,
-            message = "${state.category} > ${state.title} 화면은 나중에 연결하면 됩니다.",
-            buttonText = "목록으로 돌아가기",
-            onButtonClick = { screenState = MenuScreenState.Menu }
-        )
-    }
-}
-
-@Composable
-private fun MenuContent(
-    onClose: () -> Unit,
-    onItemClick: (String, MenuItem) -> Unit
+fun MenuScreen(
+    onClose: () -> Unit = {},
+    onItemClick: (String, MenuItem) -> Unit = { _, _ -> }
 ) {
     val scrollState = rememberScrollState()
 
@@ -283,62 +245,6 @@ private fun DividerLine() {
             .height(1.dp)
             .background(KbLine)
     )
-}
-
-@Composable
-private fun PlaceholderScreen(
-    title: String,
-    message: String,
-    buttonText: String,
-    onButtonClick: () -> Unit
-) {
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = KbWhite
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(WindowInsets.statusBars.asPaddingValues())
-                .padding(32.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = title,
-                color = KbText,
-                fontSize = 30.sp,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(Modifier.height(16.dp))
-            Text(
-                text = message,
-                color = KbGray,
-                fontSize = 18.sp,
-                lineHeight = 26.sp
-            )
-            Spacer(Modifier.height(28.dp))
-            Surface(
-                modifier = Modifier
-                    .height(52.dp)
-                    .clickable(onClick = onButtonClick),
-                color = KbDarkGray,
-                shape = RoundedCornerShape(28.dp)
-            ) {
-                Box(
-                    modifier = Modifier.padding(horizontal = 28.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = buttonText,
-                        color = KbWhite,
-                        fontSize = 17.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }
-        }
-    }
 }
 
 private val KbWhite = Color(0xFFFFFFFF)
