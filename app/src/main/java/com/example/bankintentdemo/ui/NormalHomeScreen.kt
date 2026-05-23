@@ -1,5 +1,11 @@
 package com.example.bankintentdemo.ui
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
@@ -54,6 +60,12 @@ fun NormalHomeScreen(
 ) {
     var isAiOn by remember { mutableStateOf(false) }
     var accountPage by remember { mutableIntStateOf(0) }
+    var accountMoveDirection by remember { mutableIntStateOf(1) }
+
+    fun moveAccountPage(direction: Int) {
+        accountMoveDirection = direction
+        accountPage = (accountPage + direction + 3) % 3
+    }
 
     Box(
         modifier = Modifier
@@ -80,13 +92,14 @@ fun NormalHomeScreen(
             Spacer(Modifier.height(20.dp))
             AccountPager(
                 page = accountPage,
-                onPageChange = { accountPage = it },
+                moveDirection = accountMoveDirection,
+                onPreviousPage = { moveAccountPage(-1) },
+                onNextPage = { moveAccountPage(1) },
                 onAccountClick = onAccountClick,
                 onTransferClick = onTransferClick
             )
-            Spacer(Modifier.height(14.dp))
+            Spacer(Modifier.height(18.dp))
             AccountPagerFooter(
-                page = accountPage,
                 onAllAccountsClick = onAllAccountsClick
             )
             Spacer(Modifier.height(22.dp))
@@ -122,36 +135,40 @@ private fun HomeTopBar(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Surface(
-            modifier = Modifier.clickable(onClick = onAiToggleClick),
-            shape = RoundedCornerShape(28.dp),
-            color = if (isAiOn) Color(0xFF1FAE73) else Color(0xFFE94B4B)
+        Box(
+            modifier = Modifier
+                .size(width = 74.dp, height = 44.dp)
+                .clip(RoundedCornerShape(24.dp))
+                .background(if (isAiOn) Color(0xFF50639E) else Color(0xFF5E6FAD))
+                .clickable(onClick = onAiToggleClick),
+            contentAlignment = if (isAiOn) Alignment.CenterEnd else Alignment.CenterStart
         ) {
-            Text(
-                text = if (isAiOn) "ON" else "OFF",
-                modifier = Modifier.padding(horizontal = 18.dp, vertical = 9.dp),
-                color = Color.White,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
+            Box(
+                modifier = Modifier
+                    .padding(horizontal = 6.dp)
+                    .size(32.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
             )
         }
         Spacer(Modifier.width(12.dp))
         Text(
-            text = "아무개님 >",
+            text = "회원 이름 >",
             color = HomeText,
-            fontSize = 24.sp,
+            fontSize = 23.sp,
             fontWeight = FontWeight.Bold
         )
         Spacer(Modifier.weight(1f))
-        Text("🔔", color = HomeIcon, fontSize = 24.sp)
-        Spacer(Modifier.width(18.dp))
-        Text("⌕", color = HomeIcon, fontSize = 38.sp)
-        Spacer(Modifier.width(18.dp))
+        Text("♟", color = Color.Black, fontSize = 22.sp)
+        Spacer(Modifier.width(24.dp))
+        Text("⌕", color = Color.Black, fontSize = 34.sp)
+        Spacer(Modifier.width(22.dp))
         Text(
-            text = "☰",
+            text = "≡",
             modifier = Modifier.clickable(onClick = onMenuClick),
-            color = HomeIcon,
-            fontSize = 34.sp
+            color = Color.Black,
+            fontSize = 36.sp,
+            fontWeight = FontWeight.Bold
         )
     }
 }
@@ -197,7 +214,9 @@ private fun PromotionBanner() {
 @Composable
 private fun AccountPager(
     page: Int,
-    onPageChange: (Int) -> Unit,
+    moveDirection: Int,
+    onPreviousPage: () -> Unit,
+    onNextPage: () -> Unit,
     onAccountClick: () -> Unit,
     onTransferClick: () -> Unit
 ) {
@@ -206,12 +225,12 @@ private fun AccountPager(
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(260.dp)
+            .height(302.dp)
             .pointerInput(Unit) {
                 detectHorizontalDragGestures(
                     onDragEnd = {
-                        if (dragAmount > 45) onPageChange((page + 2) % 3)
-                        if (dragAmount < -45) onPageChange((page + 1) % 3)
+                        if (dragAmount > 45) onPreviousPage()
+                        if (dragAmount < -45) onNextPage()
                         dragAmount = 0
                     }
                 ) { _, amount ->
@@ -219,46 +238,50 @@ private fun AccountPager(
                 }
             }
             .clickable(onClick = onAccountClick),
-        shape = RoundedCornerShape(22.dp),
+        shape = RoundedCornerShape(26.dp),
         color = Color.White
     ) {
-        when (page) {
-            0 -> AccountCard(onTransferClick = onTransferClick)
-            1 -> PointCard()
-            else -> PrimaryAccountCard(onTransferClick = onTransferClick)
+        Column(modifier = Modifier.padding(30.dp)) {
+            AnimatedContent(
+                modifier = Modifier.weight(1f),
+                targetState = page,
+                transitionSpec = {
+                    val direction = if (moveDirection >= 0) 1 else -1
+                    slideInHorizontally(animationSpec = tween(260)) { fullWidth -> direction * fullWidth } togetherWith
+                        slideOutHorizontally(animationSpec = tween(260)) { fullWidth -> -direction * fullWidth } using
+                        SizeTransform(clip = false)
+                },
+                label = "AccountPager"
+            ) { targetPage ->
+                when (targetPage) {
+                    0 -> AccountCard(onTransferClick = onTransferClick)
+                    1 -> PointCard()
+                    else -> PrimaryAccountCard(onTransferClick = onTransferClick)
+                }
+            }
+            AccountPageIndicator(
+                page = page,
+                onPreviousPage = onPreviousPage,
+                onNextPage = onNextPage
+            )
         }
     }
 }
 
 @Composable
 private fun AccountCard(onTransferClick: () -> Unit) {
-    Column(modifier = Modifier.padding(26.dp)) {
+    Column {
         Text(
-            text = "✱  KB국민ONE통장-보통예금",
+            text = "KB나라사랑우대통장",
             color = HomeText,
             fontSize = 21.sp,
             fontWeight = FontWeight.Bold
         )
         Spacer(Modifier.height(8.dp))
-        Text("215401-04-224401 ⧉", color = HomeSubText, fontSize = 18.sp)
-        Spacer(Modifier.weight(1f))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("0원", color = HomeText, fontSize = 28.sp, fontWeight = FontWeight.Bold)
-            Spacer(Modifier.width(10.dp))
-            Surface(
-                shape = RoundedCornerShape(20.dp),
-                color = Color.White,
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFD5DADE))
-            ) {
-                Text(
-                    text = "숨김",
-                    modifier = Modifier.padding(horizontal = 13.dp, vertical = 5.dp),
-                    color = HomeSubText,
-                    fontSize = 15.sp
-                )
-            }
-        }
-        Spacer(Modifier.height(22.dp))
+        Text("12345-67-891011", color = HomeText, fontSize = 18.sp)
+        Spacer(Modifier.height(26.dp))
+        Text("잔액 숨김", color = HomeText, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(34.dp))
         TransferButtons(onTransferClick = onTransferClick)
     }
 }
@@ -266,26 +289,25 @@ private fun AccountCard(onTransferClick: () -> Unit) {
 @Composable
 private fun PointCard() {
     Column(
-        modifier = Modifier.padding(26.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text("포인트 적립", color = HomeText, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        Spacer(Modifier.height(10.dp))
+        Text("포인트 적립", color = HomeText, fontSize = 23.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(8.dp))
         Text("이번 달 모을 수 있는 포인트 혜택을 확인해보세요.", color = HomeSubText, fontSize = 17.sp)
-        Spacer(Modifier.height(26.dp))
+        Spacer(Modifier.height(30.dp))
         Text("0 P", color = Color(0xFFFFCC33), fontSize = 34.sp, fontWeight = FontWeight.ExtraBold)
     }
 }
 
 @Composable
 private fun PrimaryAccountCard(onTransferClick: () -> Unit) {
-    Column(modifier = Modifier.padding(26.dp)) {
-        Text("대표계좌", color = HomeText, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+    Column {
+        Text("대표계좌", color = HomeText, fontSize = 23.sp, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(8.dp))
-        Text("KB국민ONE통장", color = HomeSubText, fontSize = 18.sp)
-        Spacer(Modifier.weight(1f))
-        Text("0원", color = HomeText, fontSize = 30.sp, fontWeight = FontWeight.Bold)
-        Spacer(Modifier.height(22.dp))
+        Text("KB나라사랑우대통장", color = HomeText, fontSize = 18.sp)
+        Spacer(Modifier.height(26.dp))
+        Text("잔액 숨김", color = HomeText, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(34.dp))
         TransferButtons(onTransferClick = onTransferClick)
     }
 }
@@ -317,27 +339,62 @@ private fun ActionButton(
 ) {
     Surface(
         modifier = modifier
-            .height(48.dp)
+            .height(56.dp)
             .clickable(onClick = onClick),
-        shape = RoundedCornerShape(4.dp),
+        shape = RoundedCornerShape(28.dp),
         color = color
     ) {
         Box(contentAlignment = Alignment.Center) {
-            Text(text = text, color = HomeText, fontSize = 18.sp)
+            Text(text = text, color = Color.Black, fontSize = 17.sp, fontWeight = FontWeight.Bold)
         }
     }
 }
 
 @Composable
-private fun AccountPagerFooter(
+private fun AccountPageIndicator(
     page: Int,
+    onPreviousPage: () -> Unit,
+    onNextPage: () -> Unit
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Text(
+            text = "‹",
+            modifier = Modifier
+                .clip(CircleShape)
+                .clickable(onClick = onPreviousPage)
+                .padding(horizontal = 12.dp, vertical = 4.dp),
+            color = HomeText,
+            fontSize = 34.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = "${page + 1} / 3",
+            modifier = Modifier.padding(horizontal = 8.dp),
+            color = HomeText,
+            fontSize = 25.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = "›",
+            modifier = Modifier
+                .clip(CircleShape)
+                .clickable(onClick = onNextPage)
+                .padding(horizontal = 12.dp, vertical = 4.dp),
+            color = HomeText,
+            fontSize = 34.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Composable
+private fun AccountPagerFooter(
     onAllAccountsClick: () -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text("< ${page + 1} / 3 >", color = HomeText, fontSize = 23.sp, fontWeight = FontWeight.Bold)
         Spacer(Modifier.weight(1f))
         Surface(
             modifier = Modifier.clickable(onClick = onAllAccountsClick),
