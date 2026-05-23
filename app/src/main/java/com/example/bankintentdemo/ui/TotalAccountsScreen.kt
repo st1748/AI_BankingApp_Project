@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun MenuScreen(
+fun TotalAccountsScreen(
     onBackClick: () -> Unit
 ) {
     Surface(
@@ -50,7 +50,7 @@ fun MenuScreen(
                 }
 
                 Text(
-                    text = "전체 메뉴",
+                    text = "전체계좌 조회",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -64,20 +64,13 @@ fun MenuScreen(
                     containerColor = Color.White
                 )
             ) {
-                Column(
-                    modifier = Modifier.padding(20.dp)
-                ) {
-                    Text(text = "계좌")
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "이체")
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "상품")
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(text = "고객센터")
-                }
+                Text(
+                    modifier = Modifier.padding(24.dp),
+                    text = "전체계좌 조회 페이지",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
     }
 }
-
-
