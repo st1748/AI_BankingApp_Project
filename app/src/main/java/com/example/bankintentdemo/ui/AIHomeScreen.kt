@@ -1,44 +1,53 @@
 package com.example.bankintentdemo.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.example.bankintentdemo.navigation.AppRoute
 import com.example.bankintentdemo.ui.components.*
 
 @Composable
 fun AIHomeScreen(navController: NavController, viewModel: MainViewModel) {
-    // 사용자가 입력한 프롬프트를 임시 저장할 상태
     var currentPrompt by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
             TopBar(
-                isAiMode = true, // AI 홈이므로 true
+                isAiMode = true,
                 onAiModeToggle = { if (!it) navController.navigate(AppRoute.NormalHome.route) {
                     popUpTo(AppRoute.AIHome.route) { inclusive = true }
                 } },
                 onMenuClick = { navController.navigate(AppRoute.MainMenu.route) }
             )
         },
-        bottomBar = {
-            PromptInputBar(
-                onSendClick = { input -> currentPrompt = input }
-            )
-        }
+        // bottomBar = { BottomNavBar(navController) } // AI 모드에서도 하단바는 그대로 유지 (연속성)
     ) { paddingValues ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            MainAccountSection(navController) // 일반홈과 동일한 컴포넌트 재사용!
+            // 1. 일반 홈과 동일한 위치를 유지하기 위해 광고 배너 배치
+            // item { AdBannerSection() }
 
-            // 프롬프트가 입력되었을 때만 Top3 결과를 보여줌
+            // 2. 일반 홈과 동일한 통장 카드 섹션
+            item { MainAccountSection(navController) }
+
+            // 3. 통장 카드 바로 아래 프롬프트창 배치
+            item {
+                PromptInputBar(onSendClick = { input -> currentPrompt = input })
+            }
+
+            // 4. AI 분석 결과 Top 3 (프롬프트 입력 시에만 나타남)
             if (currentPrompt.isNotEmpty()) {
-                Top3ResultCard(navController = navController, prompt = currentPrompt)
+                item {
+                    Top3ResultCard(navController = navController, prompt = currentPrompt)
+                }
             }
         }
     }
