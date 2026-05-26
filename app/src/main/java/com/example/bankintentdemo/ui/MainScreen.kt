@@ -54,6 +54,16 @@ private sealed interface MainDestination {
     data object UtilityBills : MainDestination
     data object Expense : MainDestination
     data object MyDataSettings : MainDestination
+    data object ExchangeRate : MainDestination
+    data object CurrencyExchange : MainDestination
+    data object OverseasRemittance : MainDestination
+    data object ForeignCurrencyTransfer : MainDestination
+    data object ForeignInfoManagement : MainDestination
+    data class EventList(val returnToMenu: Boolean) : MainDestination
+    data class MobileId(val returnToWallet: Boolean) : MainDestination
+    data class Payment(val returnToWallet: Boolean) : MainDestination
+    data class NftWallet(val returnToWallet: Boolean) : MainDestination
+    data class PublicNotifier(val returnToWallet: Boolean) : MainDestination
     data class Pending(val title: String) : MainDestination
 }
 
@@ -89,6 +99,16 @@ fun MainScreen() {
                     sectionTitle == "공과금" && item.title == "공과금 납부/조회" -> MainDestination.UtilityBills
                     sectionTitle == "자산관리" && item.title == "지출" -> MainDestination.Expense
                     sectionTitle == "자산관리" && item.title == "마이데이터 설정" -> MainDestination.MyDataSettings
+                    sectionTitle == "외환" && item.title == "환율" -> MainDestination.ExchangeRate
+                    sectionTitle == "외환" && item.title == "환전" -> MainDestination.CurrencyExchange
+                    sectionTitle == "외환" && item.title == "해외송금" -> MainDestination.OverseasRemittance
+                    sectionTitle == "외환" && item.title == "국내외화 이체/입출금" -> MainDestination.ForeignCurrencyTransfer
+                    sectionTitle == "외환" && item.title == "외환정보 관리" -> MainDestination.ForeignInfoManagement
+                    sectionTitle == "혜택" && item.title == "이벤트" -> MainDestination.EventList(returnToMenu = true)
+                    sectionTitle == "지갑" && item.title == "모바일 신분증" -> MainDestination.MobileId(returnToWallet = false)
+                    sectionTitle == "지갑" && item.title == "결제" -> MainDestination.Payment(returnToWallet = false)
+                    sectionTitle == "지갑" && item.title == "NFT" -> MainDestination.NftWallet(returnToWallet = false)
+                    sectionTitle == "지갑" && (item.title == "공공알리미" || item.title == "공공알리미(국민비서 · 전자문서)") -> MainDestination.PublicNotifier(returnToWallet = false)
                     else -> MainDestination.Pending(item.title)
                 }
             }
@@ -96,14 +116,32 @@ fun MainScreen() {
 
         MainDestination.Wallet -> WalletScreen(
             onClose = { destination = MainDestination.Home },
-            onItemClick = { title -> destination = MainDestination.Pending(title) }
+            onItemClick = { title ->
+                destination = if (title == "모바일 신분증") {
+                    MainDestination.MobileId(returnToWallet = true)
+                } else if (title == "결제") {
+                    MainDestination.Payment(returnToWallet = true)
+                } else if (title == "NFT") {
+                    MainDestination.NftWallet(returnToWallet = true)
+                } else if (title == "공공알리미") {
+                    MainDestination.PublicNotifier(returnToWallet = true)
+                } else {
+                    MainDestination.Pending(title)
+                }
+            }
         )
 
         MainDestination.Benefits -> BenefitsScreen(
             onBackClick = { destination = MainDestination.Home },
             onHomeClick = { destination = MainDestination.Home },
             onMenuClick = { destination = MainDestination.Menu },
-            onItemClick = { title -> destination = MainDestination.Pending(title) }
+            onItemClick = { title ->
+                destination = if (title == "이벤트") {
+                    MainDestination.EventList(returnToMenu = false)
+                } else {
+                    MainDestination.Pending(title)
+                }
+            }
         )
 
         MainDestination.Transfer -> TransferScreen(
@@ -138,6 +176,118 @@ fun MainScreen() {
 
         MainDestination.MyDataSettings -> MyDataSettingsScreen(
             onBackClick = { destination = MainDestination.Menu },
+            onHomeClick = { destination = MainDestination.Home },
+            onMenuClick = { destination = MainDestination.Menu }
+        )
+
+        MainDestination.ExchangeRate -> ExchangeRateScreen(
+            onBackClick = { destination = MainDestination.Menu },
+            onHomeClick = { destination = MainDestination.Home },
+            onMenuClick = { destination = MainDestination.Menu }
+        )
+
+        MainDestination.CurrencyExchange -> ForeignMenuScreen(
+            title = "환전",
+            items = listOf("환전신청", "환전조회/관리", "비로그인 환전 내역 조회"),
+            onBackClick = { destination = MainDestination.Menu },
+            onHomeClick = { destination = MainDestination.Home },
+            onMenuClick = { destination = MainDestination.Menu }
+        )
+
+        MainDestination.OverseasRemittance -> ForeignMenuScreen(
+            title = "해외송금",
+            items = listOf(
+                "해외송금보내기",
+                "웨스턴유니온송금보내기",
+                "보낸송금 내용변경/반환신청",
+                "보낸내역조회",
+                "무증빙 해외송금 내역조회",
+                "해외송금받기",
+                "거래외국환은행지정"
+            ),
+            onBackClick = { destination = MainDestination.Menu },
+            onHomeClick = { destination = MainDestination.Home },
+            onMenuClick = { destination = MainDestination.Menu }
+        )
+
+        MainDestination.ForeignCurrencyTransfer -> ForeignMenuScreen(
+            title = "국내외화이체/예금입출금",
+            items = listOf("외화이체/예금입출금", "외화자동이체", "외화이체 내역조회"),
+            onBackClick = { destination = MainDestination.Menu },
+            onHomeClick = { destination = MainDestination.Home },
+            onMenuClick = { destination = MainDestination.Menu }
+        )
+
+        MainDestination.ForeignInfoManagement -> ForeignMenuScreen(
+            title = "외환정보관리",
+            items = listOf(
+                "영문정보관리",
+                "외화알림서비스",
+                "외화송금 국내/해외 주소록",
+                "해외송금 수수료 납부/조회",
+                "외화수표 수수료 납부/조회"
+            ),
+            onBackClick = { destination = MainDestination.Menu },
+            onHomeClick = { destination = MainDestination.Home },
+            onMenuClick = { destination = MainDestination.Menu }
+        )
+
+        is MainDestination.EventList -> EventListScreen(
+            onBackClick = {
+                destination = if (current.returnToMenu) {
+                    MainDestination.Menu
+                } else {
+                    MainDestination.Benefits
+                }
+            },
+            onHomeClick = { destination = MainDestination.Home },
+            onMenuClick = { destination = MainDestination.Menu }
+        )
+
+        is MainDestination.MobileId -> MobileIdScreen(
+            onBackClick = {
+                destination = if (current.returnToWallet) {
+                    MainDestination.Wallet
+                } else {
+                    MainDestination.Menu
+                }
+            },
+            onHomeClick = { destination = MainDestination.Home },
+            onMenuClick = { destination = MainDestination.Menu }
+        )
+
+        is MainDestination.Payment -> PaymentScreen(
+            onBackClick = {
+                destination = if (current.returnToWallet) {
+                    MainDestination.Wallet
+                } else {
+                    MainDestination.Menu
+                }
+            },
+            onHomeClick = { destination = MainDestination.Home },
+            onMenuClick = { destination = MainDestination.Menu }
+        )
+
+        is MainDestination.NftWallet -> NftWalletScreen(
+            onBackClick = {
+                destination = if (current.returnToWallet) {
+                    MainDestination.Wallet
+                } else {
+                    MainDestination.Menu
+                }
+            },
+            onHomeClick = { destination = MainDestination.Home },
+            onMenuClick = { destination = MainDestination.Menu }
+        )
+
+        is MainDestination.PublicNotifier -> PublicNotifierScreen(
+            onBackClick = {
+                destination = if (current.returnToWallet) {
+                    MainDestination.Wallet
+                } else {
+                    MainDestination.Menu
+                }
+            },
             onHomeClick = { destination = MainDestination.Home },
             onMenuClick = { destination = MainDestination.Menu }
         )
@@ -1400,6 +1550,1338 @@ private fun MyDataOutlineButton(text: String, modifier: Modifier = Modifier) {
     ) {
         Box(contentAlignment = Alignment.Center) {
             Text(text, color = Color(0xFF25272B), fontSize = 19.sp)
+        }
+    }
+}
+
+@Composable
+private fun EventListScreen(
+    onBackClick: () -> Unit,
+    onHomeClick: () -> Unit,
+    onMenuClick: () -> Unit
+) {
+    val textColor = Color(0xFF25272B)
+    val mutedColor = Color(0xFF7B8088)
+
+    Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(WindowInsets.statusBars.asPaddingValues())
+        ) {
+            TransferStyleTopBar(
+                title = "이벤트",
+                onBackClick = onBackClick,
+                onHomeClick = onHomeClick,
+                onMenuClick = onMenuClick
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp)
+                    .padding(horizontal = 27.dp),
+                verticalAlignment = Alignment.Bottom
+            ) {
+                EventTopTab("진행중이벤트", selected = true)
+                EventTopTab("응모/당첨확인")
+                EventTopTab("설문")
+                Spacer(Modifier.weight(1f))
+                SearchLineIcon(
+                    modifier = Modifier
+                        .padding(bottom = 10.dp)
+                        .size(35.dp),
+                    color = textColor
+                )
+            }
+            DividerLine()
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 27.dp)
+            ) {
+                Spacer(Modifier.height(22.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    EventFilterChip("전체", selected = true)
+                    EventFilterChip("마감임박")
+                    EventFilterChip("맞춤추천")
+                }
+                Spacer(Modifier.height(24.dp))
+
+                EventCard(
+                    title = "KB GS Pay통장 만들고",
+                    subtitle = "스페셜 카드박스 응모하기",
+                    period = "2026.05.25 ~ 2026.05.31",
+                    background = Color(0xFFFCEBEE),
+                    image = "🎁🐰"
+                )
+                EventCard(
+                    title = "치킨도 먹고! 커피도 마시고!",
+                    subtitle = "KB골든라이프와 함께",
+                    period = "2026.05.15 ~ 2026.06.15",
+                    background = Color(0xFFFFF4D9),
+                    image = "🍗👵"
+                )
+                EventCard(
+                    title = "하루 3번 받는 포인트",
+                    subtitle = "매일걷기로 건강 앱테크",
+                    period = "2026.05.13 ~ 2026.06.30",
+                    background = Color(0xFFE0F3FF),
+                    image = "🐻🪙"
+                )
+                EventCard(
+                    title = "ISA로 노후준비 단디하고,",
+                    subtitle = "부산 Golden Class 로 퍼뜩 오이소!",
+                    period = "2026.05.12 ~ 2026.05.29",
+                    background = Color(0xFFE3F5FF),
+                    image = "👩‍💼💰"
+                )
+                EventCard(
+                    title = "자취지원금 총 2천만원 쏜다",
+                    subtitle = "20대라면 누구나 OK!",
+                    period = "2026.05.12 ~ 2026.06.30",
+                    background = Color(0xFFF0EFFF),
+                    image = "🐱💸"
+                )
+                Spacer(Modifier.height(30.dp))
+            }
+        }
+    }
+}
+
+@Composable
+private fun EventTopTab(title: String, selected: Boolean = false) {
+    Column(
+        modifier = Modifier
+            .height(64.dp)
+            .padding(end = 28.dp),
+        verticalArrangement = Arrangement.Bottom
+    ) {
+        Text(
+            text = title,
+            color = if (selected) Color(0xFF25272B) else Color(0xFF7B8088),
+            fontSize = 19.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(Modifier.height(14.dp))
+        Box(
+            modifier = Modifier
+                .width(if (selected) 105.dp else 0.dp)
+                .height(4.dp)
+                .background(if (selected) Color(0xFF25272B) else Color.Transparent)
+        )
+    }
+}
+
+@Composable
+private fun EventFilterChip(title: String, selected: Boolean = false) {
+    Surface(
+        modifier = Modifier.height(48.dp),
+        color = if (selected) Color(0xFFFFD95A) else Color.White,
+        shape = RoundedCornerShape(24.dp),
+        border = if (selected) null else androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF9BA1A8))
+    ) {
+        Box(
+            modifier = Modifier.padding(horizontal = 21.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = title,
+                color = if (selected) Color(0xFF25272B) else Color(0xFF8C9299),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Composable
+private fun EventCard(
+    title: String,
+    subtitle: String,
+    period: String,
+    background: Color,
+    image: String
+) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(142.dp)
+            .padding(bottom = 16.dp),
+        color = background,
+        shape = RoundedCornerShape(10.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(start = 22.dp, end = 20.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(title, color = Color(0xFF25272B), fontSize = 21.sp, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(5.dp))
+                Text(subtitle, color = Color(0xFF3E4248), fontSize = 18.sp)
+                Spacer(Modifier.height(18.dp))
+                Text(period, color = Color(0xFF6F747B), fontSize = 17.sp)
+            }
+            Box(
+                modifier = Modifier
+                    .size(94.dp)
+                    .clip(CircleShape)
+                    .background(Color.White.copy(alpha = 0.55f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(image, fontSize = 32.sp)
+            }
+        }
+    }
+}
+
+@Composable
+private fun MobileIdScreen(
+    onBackClick: () -> Unit,
+    onHomeClick: () -> Unit,
+    onMenuClick: () -> Unit
+) {
+    val textColor = Color(0xFF25272B)
+
+    Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(WindowInsets.statusBars.asPaddingValues())
+        ) {
+            TransferStyleTopBar(
+                title = "모바일 신분증",
+                onBackClick = onBackClick,
+                onHomeClick = onHomeClick,
+                onMenuClick = onMenuClick
+            )
+            DividerLine()
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(76.dp)
+                    .background(Color.White)
+                    .padding(horizontal = 27.dp),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                Surface(
+                    shape = RoundedCornerShape(26.dp),
+                    color = Color.White,
+                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFC9CDD2))
+                ) {
+                    Text(
+                        text = "국민지갑 메인",
+                        modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
+                        color = Color(0xFF3A3D42),
+                        fontSize = 18.sp
+                    )
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .background(Color(0xFFEAF6FF))
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 70.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "신분증이 필요한 순간\n모바일 신분증 하나로",
+                        color = textColor,
+                        fontSize = 31.sp,
+                        lineHeight = 42.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(Modifier.height(22.dp))
+                    Text(
+                        text = "안전하고 간편한 모바일 신분증\n바로 발급해보세요",
+                        color = Color(0xFF555A61),
+                        fontSize = 21.sp,
+                        lineHeight = 30.sp
+                    )
+                    Spacer(Modifier.height(56.dp))
+                    MobileIdHero()
+                }
+
+                Surface(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth()
+                        .height(92.dp),
+                    color = Color(0xFF343C61)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Text(
+                            text = "모바일 신분증 이용하기",
+                            color = Color.White,
+                            fontSize = 27.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun MobileIdHero() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(430.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Surface(
+            modifier = Modifier
+                .width(270.dp)
+                .height(380.dp),
+            color = Color.Transparent,
+            shape = RoundedCornerShape(24.dp)
+        ) {
+            Box(
+                modifier = Modifier.background(
+                    Brush.linearGradient(
+                        listOf(Color(0xFF8FD9E9), Color(0xFFB89DF5), Color(0xFFE7F4FF))
+                    )
+                )
+            )
+        }
+        MobileSideIdCard(
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(start = 0.dp),
+            rotationHint = -9f,
+            color = Color(0xFFFFF4C4),
+            label = "주민등록증"
+        )
+        MobileSideIdCard(
+            modifier = Modifier.align(Alignment.CenterEnd),
+            rotationHint = 9f,
+            color = Color(0xFFEAF7F3),
+            label = "국가보훈등록증"
+        )
+        Surface(
+            modifier = Modifier
+                .width(246.dp)
+                .height(315.dp),
+            color = Color(0xFFEFF8FF),
+            shape = RoundedCornerShape(18.dp),
+            shadowElevation = 8.dp
+        ) {
+            Column(modifier = Modifier.padding(18.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                Surface(color = Color.White, shape = RoundedCornerShape(22.dp), shadowElevation = 5.dp) {
+                    Text(
+                        "눌러서 정보 확인",
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        color = Color(0xFF25272B),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                Spacer(Modifier.height(20.dp))
+                Box(
+                    modifier = Modifier
+                        .size(92.dp)
+                        .clip(RoundedCornerShape(14.dp))
+                        .background(Color.White),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("🐰", fontSize = 45.sp)
+                }
+                Spacer(Modifier.height(22.dp))
+                Text("자동차운전면허증", color = Color(0xFF25272B), fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(10.dp))
+                Text("김국민", color = Color(0xFF25272B), fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.height(4.dp))
+                Text("123456-1234567", color = Color(0xFF25272B), fontSize = 17.sp)
+                Spacer(Modifier.height(18.dp))
+                Text("서울특별시경찰청장", color = Color(0xFF555A61), fontSize = 14.sp)
+            }
+        }
+    }
+}
+
+@Composable
+private fun MobileSideIdCard(
+    modifier: Modifier,
+    rotationHint: Float,
+    color: Color,
+    label: String
+) {
+    Surface(
+        modifier = modifier
+            .width(128.dp)
+            .height(220.dp),
+        color = color,
+        shape = RoundedCornerShape(10.dp),
+        shadowElevation = 4.dp
+    ) {
+        Column(
+            modifier = Modifier.padding(14.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(label, color = Color(0xFF25272B), fontSize = 16.sp, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.height(18.dp))
+            Box(
+                modifier = Modifier
+                    .size(68.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color.White),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(if (rotationHint < 0) "🐢" else "🐻", fontSize = 34.sp)
+            }
+            Spacer(Modifier.height(22.dp))
+            Text("김국민", color = Color(0xFF25272B), fontSize = 17.sp, fontWeight = FontWeight.Bold)
+        }
+    }
+}
+
+@Composable
+private fun NftWalletScreen(
+    onBackClick: () -> Unit,
+    onHomeClick: () -> Unit,
+    onMenuClick: () -> Unit
+) {
+    val textColor = Color(0xFF25272B)
+    val mutedColor = Color(0xFF666B72)
+
+    Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(WindowInsets.statusBars.asPaddingValues())
+        ) {
+            TransferStyleTopBar(
+                title = "NFT 지갑",
+                onBackClick = onBackClick,
+                onHomeClick = onHomeClick,
+                onMenuClick = onMenuClick
+            )
+            DividerLine()
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(88.dp)
+                        .background(Color(0xFFEAF7FF))
+                        .padding(horizontal = 28.dp),
+                    contentAlignment = Alignment.CenterEnd
+                ) {
+                    Surface(
+                        color = Color.White,
+                        shape = RoundedCornerShape(26.dp),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFC6CDD5))
+                    ) {
+                        Text(
+                            text = "국민지갑 메인",
+                            modifier = Modifier.padding(horizontal = 22.dp, vertical = 10.dp),
+                            color = textColor,
+                            fontSize = 18.sp
+                        )
+                    }
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            Brush.verticalGradient(
+                                listOf(
+                                    Color(0xFFEAF7FF),
+                                    Color(0xFFEFE7FF),
+                                    Color(0xFFEDE2FF)
+                                )
+                            )
+                        )
+                        .padding(horizontal = 28.dp, vertical = 26.dp)
+                ) {
+                    Text("나만의 NFT 컬렉션", color = textColor, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+                    Spacer(Modifier.height(18.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Surface(
+                            color = Color(0xFFDDE8F8),
+                            shape = RoundedCornerShape(24.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 9.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text("물색설경운치4818", color = Color(0xFF40454C), fontSize = 18.sp)
+                                Spacer(Modifier.width(8.dp))
+                                Text("›", color = Color(0xFF40454C), fontSize = 28.sp, fontWeight = FontWeight.Bold)
+                            }
+                        }
+                        Spacer(Modifier.weight(1f))
+                        Text("전체 보기 ", color = mutedColor, fontSize = 18.sp)
+                        Text("0", color = Color(0xFF2D83FF), fontSize = 18.sp)
+                        Spacer(Modifier.width(6.dp))
+                        Text("›", color = mutedColor, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+                    }
+
+                    Spacer(Modifier.height(122.dp))
+
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(72.dp)
+                                .clip(RoundedCornerShape(16.dp))
+                                .background(Color(0xFFD7C8F6)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("!", color = Color(0xFFB8A9DC), fontSize = 34.sp, fontWeight = FontWeight.Bold)
+                        }
+                        Spacer(Modifier.height(42.dp))
+                        Text("보유한 NFT가 없어요.", color = textColor, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                    }
+
+                    Spacer(Modifier.height(86.dp))
+
+                    Surface(
+                        modifier = Modifier.fillMaxWidth(),
+                        color = Color(0xFFD8C6FF),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 28.dp, vertical = 24.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text("NFT는 어떻게 모으나요?", color = textColor, fontSize = 18.sp)
+                                Spacer(Modifier.height(6.dp))
+                                Text("NFT 소장 방법 알아보기", color = textColor, fontSize = 19.sp, fontWeight = FontWeight.Bold)
+                            }
+                            NftSmallBadge()
+                        }
+                    }
+
+                    Spacer(Modifier.height(34.dp))
+                    Text(
+                        text = "거래 내역",
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                        color = Color(0xFF5F646B),
+                        fontSize = 22.sp
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .width(78.dp)
+                            .height(1.dp)
+                            .background(Color(0xFF5F646B))
+                    )
+                    Spacer(Modifier.height(30.dp))
+                }
+
+                NftGuideSection(
+                    title = "NFT 지갑 이벤트 안내",
+                    rows = listOf("🎉" to "안녕 나는 웰컴이야~!!")
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(18.dp)
+                        .background(Color(0xFFF4F5F6))
+                )
+                NftGuideSection(
+                    title = "NFT 지갑 이용 안내",
+                    rows = listOf(
+                        "ⓘ" to "NFT 지갑 설명서",
+                        "▣" to "이전 New Fun Contents 보러가기"
+                    )
+                )
+                Spacer(Modifier.height(36.dp))
+            }
+        }
+    }
+}
+
+@Composable
+private fun NftSmallBadge() {
+    Surface(
+        modifier = Modifier.size(74.dp),
+        color = Color.White,
+        shape = RoundedCornerShape(16.dp),
+        shadowElevation = 2.dp
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text("NFT", color = Color(0xFF7C57E8), fontSize = 17.sp, fontWeight = FontWeight.Bold)
+                Text("✓", color = Color(0xFFD2A327), fontSize = 22.sp, fontWeight = FontWeight.Bold)
+            }
+        }
+    }
+}
+
+@Composable
+private fun NftGuideSection(
+    title: String,
+    rows: List<Pair<String, String>>
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .padding(horizontal = 28.dp, vertical = 34.dp)
+    ) {
+        Text(title, color = Color(0xFF25272B), fontSize = 26.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(28.dp))
+        rows.forEachIndexed { index, row ->
+            NftGuideRow(icon = row.first, title = row.second)
+            if (index != rows.lastIndex) {
+                Spacer(Modifier.height(20.dp))
+                DividerLine()
+                Spacer(Modifier.height(20.dp))
+            }
+        }
+    }
+}
+
+@Composable
+private fun NftGuideRow(
+    icon: String,
+    title: String
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(58.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(icon, fontSize = 27.sp)
+        Spacer(Modifier.width(24.dp))
+        Text(
+            text = title,
+            modifier = Modifier.weight(1f),
+            color = Color(0xFF25272B),
+            fontSize = 21.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Text("›", color = Color(0xFF444A52), fontSize = 32.sp, fontWeight = FontWeight.Bold)
+    }
+}
+
+@Composable
+private fun PublicNotifierScreen(
+    onBackClick: () -> Unit,
+    onHomeClick: () -> Unit,
+    onMenuClick: () -> Unit
+) {
+    val textColor = Color(0xFF25272B)
+    val mutedColor = Color(0xFF858B93)
+
+    Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(WindowInsets.statusBars.asPaddingValues())
+        ) {
+            TransferStyleTopBar(
+                title = "공공알리미",
+                onBackClick = onBackClick,
+                onHomeClick = onHomeClick,
+                onMenuClick = onMenuClick
+            )
+            DividerLine()
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+            ) {
+                Spacer(Modifier.height(28.dp))
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp),
+                    color = Color(0xFFEAF3FF),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 22.dp, vertical = 24.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text("한국주택금융공사를 만나보세요", color = textColor, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                            Spacer(Modifier.height(8.dp))
+                            Text(
+                                "우리가족 소중한 보금자리, 내 집 마련 꿈 실현하기",
+                                color = Color(0xFF565B63),
+                                fontSize = 17.sp,
+                                lineHeight = 23.sp
+                            )
+                        }
+                        Spacer(Modifier.width(12.dp))
+                        Box(
+                            modifier = Modifier
+                                .size(66.dp)
+                                .clip(RoundedCornerShape(14.dp))
+                                .background(Color.White),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("HF", color = Color(0xFF2E8DDC), fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                        }
+                    }
+                }
+                Spacer(Modifier.height(14.dp))
+                Text(
+                    text = "• ━ ❚❚",
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    color = Color(0xFF7F858C),
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(Modifier.height(26.dp))
+                PublicNotifierTabs(selected = "받은 문서")
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFFF7F1E6))
+                        .padding(horizontal = 24.dp, vertical = 26.dp)
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text("지금 바로 확인해야할 중요 알림", color = Color(0xFF363A40), fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                            Spacer(Modifier.height(6.dp))
+                            Text("아직 읽지 않은 알림이 있어요", color = Color(0xFF676D75), fontSize = 17.sp)
+                        }
+                        Text("📅", fontSize = 44.sp)
+                    }
+                    Spacer(Modifier.height(22.dp))
+                    listOf(
+                        "[관세청] 전자상거래(해외직구)물품 수입...",
+                        "[관세청] 전자상거래(해외직구)물품 통관...",
+                        "[신규서비스 안내(고유가 피해지원금 안..."
+                    ).forEach {
+                        PublicImportantNotice(title = it)
+                        Spacer(Modifier.height(10.dp))
+                    }
+                }
+
+                PublicReceivedDocuments()
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(18.dp)
+                        .background(Color(0xFFF5F6F7))
+                )
+
+                PublicNotifierTabs(selected = "신청/관리")
+                PublicApplyManagement()
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(18.dp)
+                        .background(Color(0xFFF5F6F7))
+                )
+
+                PublicNotifierTabs(selected = "이용안내")
+                PublicUsageGuide()
+                Spacer(Modifier.height(36.dp))
+            }
+        }
+    }
+}
+
+@Composable
+private fun ExchangeRateScreen(
+    onBackClick: () -> Unit,
+    onHomeClick: () -> Unit,
+    onMenuClick: () -> Unit
+) {
+    ForeignMenuScreen(
+        title = "환율",
+        items = listOf("환율조회", "환율동향정보"),
+        onBackClick = onBackClick,
+        onHomeClick = onHomeClick,
+        onMenuClick = onMenuClick
+    )
+}
+
+@Composable
+private fun ForeignMenuScreen(
+    title: String,
+    items: List<String>,
+    onBackClick: () -> Unit,
+    onHomeClick: () -> Unit,
+    onMenuClick: () -> Unit
+) {
+    val textColor = Color(0xFF25272B)
+    val lineColor = Color(0xFFE6E9EC)
+
+    Surface(modifier = Modifier.fillMaxSize(), color = Color.White) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(WindowInsets.statusBars.asPaddingValues())
+        ) {
+            TransferStyleTopBar(
+                title = title,
+                onBackClick = onBackClick,
+                onHomeClick = onHomeClick,
+                onMenuClick = onMenuClick
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 28.dp)
+            ) {
+                Spacer(Modifier.height(20.dp))
+                items.forEach { item ->
+                    ForeignMenuListRow(title = item, textColor = textColor, lineColor = lineColor)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ForeignMenuListRow(
+    title: String,
+    textColor: Color,
+    lineColor: Color
+) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(76.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = title,
+                modifier = Modifier.weight(1f),
+                color = textColor,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text("›", color = Color(0xFF858B93), fontSize = 34.sp, fontWeight = FontWeight.Light)
+        }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(lineColor)
+        )
+    }
+}
+
+@Composable
+private fun PublicNotifierTabs(selected: String) {
+    val tabs = listOf("받은 문서", "신청/관리", "이용안내")
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        tabs.forEach { tab ->
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(56.dp),
+                horizontalAlignment = Alignment.Start
+            ) {
+                Text(
+                    text = tab,
+                    color = if (tab == selected) Color(0xFF25272B) else Color(0xFF8B929A),
+                    fontSize = 21.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(Modifier.height(12.dp))
+                Box(
+                    modifier = Modifier
+                        .width(if (tab == selected) 74.dp else 0.dp)
+                        .height(4.dp)
+                        .background(if (tab == selected) Color(0xFF25272B) else Color.Transparent)
+                )
+            }
+        }
+        Text("⋮", color = Color(0xFF8B929A), fontSize = 34.sp, fontWeight = FontWeight.Bold)
+    }
+    DividerLine()
+}
+
+@Composable
+private fun PublicImportantNotice(title: String) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(66.dp),
+        color = Color.White,
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 20.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("🇰🇷", fontSize = 27.sp)
+            Spacer(Modifier.width(14.dp))
+            Text(title, color = Color(0xFF343941), fontSize = 19.sp, fontWeight = FontWeight.Bold)
+        }
+    }
+}
+
+@Composable
+private fun PublicReceivedDocuments() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .padding(horizontal = 24.dp, vertical = 34.dp)
+    ) {
+        Text("받은 문서", color = Color(0xFF25272B), fontSize = 29.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(22.dp))
+        PublicSegmentedControl(left = "최신순 보기", right = "기관별 보기")
+        Spacer(Modifier.height(24.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text("전체 21", color = Color(0xFF25272B), fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            Text("  |  안읽음 17", color = Color(0xFF535960), fontSize = 18.sp)
+        }
+        Spacer(Modifier.height(22.dp))
+        listOf(
+            Triple("KB국민은행 전자문서 중계서비스 개인정보처리...", "국민은행  |  26.05.19  |  D-346", "안읽음"),
+            Triple("「전자금융서비스 이용약관」 개정관련 사전안내", "국민은행  |  26.05.13  |  D-219", "안읽음"),
+            Triple("[관세청] 전자상거래(해외직구)물품 수입신고 내...", "국민비서 · 관세청  |  26.05.12", "안읽음"),
+            Triple("[관세청] 전자상거래(해외직구)물품 통관목록 제...", "국민비서 · 관세청  |  26.05.12", "안읽음"),
+            Triple("[신규서비스 안내(고유가 피해지원금 안내)]", "국민비서 · 행정안전부  |  26.05.08", "안읽음")
+        ).forEach {
+            PublicDocumentRow(title = it.first, subtitle = it.second, status = it.third)
+            DividerLine()
+        }
+        Spacer(Modifier.height(22.dp))
+        Text(
+            "+ 더보기",
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            color = Color(0xFF3E4248),
+            fontSize = 22.sp
+        )
+    }
+}
+
+@Composable
+private fun PublicSegmentedControl(left: String, right: String) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp),
+        color = Color(0xFFEFF2F5),
+        shape = RoundedCornerShape(30.dp)
+    ) {
+        Row {
+            Surface(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(56.dp),
+                color = Color.White,
+                shape = RoundedCornerShape(30.dp),
+                shadowElevation = 2.dp
+            ) {
+                Box(contentAlignment = Alignment.Center) {
+                    Text(left, color = Color(0xFF25272B), fontSize = 19.sp, fontWeight = FontWeight.Bold)
+                }
+            }
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(56.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(right, color = Color(0xFF8B929A), fontSize = 19.sp, fontWeight = FontWeight.Bold)
+            }
+        }
+    }
+}
+
+@Composable
+private fun PublicDocumentRow(title: String, subtitle: String, status: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 18.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(title, color = Color(0xFF25272B), fontSize = 20.sp, fontWeight = FontWeight.Bold, lineHeight = 26.sp)
+            Spacer(Modifier.height(8.dp))
+            Text(subtitle, color = Color(0xFF858B93), fontSize = 17.sp)
+        }
+        Spacer(Modifier.width(10.dp))
+        Text(status, color = Color(0xFF2B83FF), fontSize = 18.sp, fontWeight = FontWeight.Bold)
+    }
+}
+
+@Composable
+private fun PublicApplyManagement() {
+    val cards = listOf(
+        Triple("🇰🇷", "국민비서", "행정정보 공공알림\n수신중(65/109)"),
+        Triple("HF", "한국주택금융공사", "보금자리론, 내집마련디딤돌 안내 등\n신청하기"),
+        Triple("🇰🇷", "국세청", "근로장려금, 종합소득세,\n국세환급금 등"),
+        Triple("TP", "사학연금", "대여 미상환금, 퇴직급여\n청구 안내 등"),
+        Triple("🇰🇷", "지방자치단체", "지방세, 세외수입 등"),
+        Triple("KB", "KB국민은행", "예금잔액 조회장, 상품가입\n계약서류 등"),
+        Triple("KB", "KB국민카드", "이용대금명세서"),
+        Triple("KB", "KB증권", "월간거래내역")
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color(0xFFF6F7F8))
+            .padding(horizontal = 24.dp, vertical = 28.dp)
+    ) {
+        Text("신청/관리", color = Color(0xFF25272B), fontSize = 28.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(18.dp))
+        Text("전체 12  |  신청완료 2  |  미신청 10", color = Color(0xFF3E4248), fontSize = 18.sp)
+        Spacer(Modifier.height(20.dp))
+        for (row in cards.chunked(2)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                row.forEach { card ->
+                    PublicApplyCard(
+                        icon = card.first,
+                        title = card.second,
+                        body = card.third,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+                if (row.size == 1) Spacer(Modifier.weight(1f))
+            }
+            Spacer(Modifier.height(10.dp))
+        }
+    }
+}
+
+@Composable
+private fun PublicApplyCard(
+    icon: String,
+    title: String,
+    body: String,
+    modifier: Modifier = Modifier
+) {
+    Surface(
+        modifier = modifier.height(170.dp),
+        color = Color.White,
+        shape = RoundedCornerShape(10.dp),
+        shadowElevation = 4.dp
+    ) {
+        Column(modifier = Modifier.padding(18.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(icon, fontSize = 24.sp)
+                Spacer(Modifier.width(10.dp))
+                Text(title, color = Color(0xFF25272B), fontSize = 19.sp, fontWeight = FontWeight.Bold)
+            }
+            Spacer(Modifier.height(12.dp))
+            Text(body, color = Color(0xFF737A82), fontSize = 16.sp, lineHeight = 23.sp)
+            Spacer(Modifier.weight(1f))
+            Text("신청하기 ›", modifier = Modifier.align(Alignment.End), color = Color(0xFF3D4249), fontSize = 17.sp)
+        }
+    }
+}
+
+@Composable
+private fun PublicUsageGuide() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .padding(horizontal = 24.dp, vertical = 34.dp)
+    ) {
+        Text("이용안내", color = Color(0xFF25272B), fontSize = 29.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(24.dp))
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = Color(0xFFF3F6FA),
+            shape = RoundedCornerShape(10.dp)
+        ) {
+            Row(
+                modifier = Modifier.padding(20.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(54.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color(0xFF3B91F3)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("▤", color = Color.White, fontSize = 26.sp, fontWeight = FontWeight.Bold)
+                }
+                Spacer(Modifier.width(18.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text("KB공공알리미가 처음이신가요?", color = Color(0xFF25272B), fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                    Spacer(Modifier.height(4.dp))
+                    Text("KB공공알리미 사용법 보러가기", color = Color(0xFF4A5058), fontSize = 17.sp)
+                }
+                Text("›", color = Color(0xFF8B929A), fontSize = 32.sp)
+            }
+        }
+        Spacer(Modifier.height(48.dp))
+        Text("자주 묻는 질문", color = Color(0xFF25272B), fontSize = 25.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(22.dp))
+        listOf(
+            "공공기관의 알림이 왜 오는건가요?",
+            "문서 도착 알림이 오지 않아요",
+            "열람기한이 지나면 볼수 없나요?",
+            "알림 내용에 대한 문의는 어디로 하나요?",
+            "광고 스팸으로 의심되는 전자문서를 받았어요"
+        ).forEach {
+            DividerLine()
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(66.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(it, modifier = Modifier.weight(1f), color = Color(0xFF3D4248), fontSize = 19.sp)
+                Text("⌄", color = Color(0xFF858B93), fontSize = 27.sp)
+            }
+        }
+        DividerLine()
+    }
+}
+
+@Composable
+private fun PaymentScreen(
+    onBackClick: () -> Unit,
+    onHomeClick: () -> Unit,
+    onMenuClick: () -> Unit
+) {
+    val textColor = Color(0xFF25272B)
+    val mutedColor = Color(0xFF7B8088)
+
+    Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFFF4F5F6)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(WindowInsets.statusBars.asPaddingValues())
+        ) {
+            TransferStyleTopBar(
+                title = "스타뱅킹 결제",
+                onBackClick = onBackClick,
+                onHomeClick = onHomeClick,
+                onMenuClick = onMenuClick
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 24.dp, vertical = 22.dp)
+            ) {
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = Color.White,
+                    shape = RoundedCornerShape(18.dp)
+                ) {
+                    Column(modifier = Modifier.padding(horizontal = 24.dp, vertical = 22.dp)) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Spacer(Modifier.weight(1f))
+                            PaymentSegment("QR결제", selected = true)
+                            PaymentSegment("제로페이", selected = false)
+                            Spacer(Modifier.weight(1f))
+                            Text("⋮", color = Color(0xFF5A6068), fontSize = 32.sp, fontWeight = FontWeight.Bold)
+                        }
+                        Spacer(Modifier.height(22.dp))
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(150.dp)
+                                .clip(RoundedCornerShape(16.dp))
+                                .background(Color(0xFFF0F1F2)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text("QR", color = Color(0xFFBEC4CA), fontSize = 38.sp, fontWeight = FontWeight.Bold)
+                        }
+                        Spacer(Modifier.height(22.dp))
+                        DividerLine()
+                        Spacer(Modifier.height(22.dp))
+                        Surface(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(56.dp),
+                            color = Color.White,
+                            border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF7D838A))
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Text("▣  QR 코드 스캔", color = textColor, fontSize = 20.sp)
+                            }
+                        }
+                        Spacer(Modifier.height(28.dp))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("출금계좌", color = textColor, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                            Spacer(Modifier.weight(1f))
+                            Text("🎫", fontSize = 22.sp)
+                            Spacer(Modifier.width(6.dp))
+                            Text("쿠폰함", color = textColor, fontSize = 18.sp)
+                        }
+                        Spacer(Modifier.height(12.dp))
+                        Surface(
+                            modifier = Modifier.fillMaxWidth(),
+                            color = Color.White,
+                            shape = RoundedCornerShape(14.dp),
+                            border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFD1D5DA))
+                        ) {
+                            Column(modifier = Modifier.padding(20.dp)) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(30.dp)
+                                        .clip(RoundedCornerShape(7.dp))
+                                        .background(Color(0xFFF0F1F2))
+                                )
+                                Spacer(Modifier.height(18.dp))
+                                DividerLine()
+                                Spacer(Modifier.height(18.dp))
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Box(
+                                        modifier = Modifier
+                                            .width(88.dp)
+                                            .height(32.dp)
+                                            .clip(RoundedCornerShape(7.dp))
+                                            .background(Color(0xFFF0F1F2))
+                                    )
+                                    Spacer(Modifier.width(14.dp))
+                                    Surface(
+                                        color = Color.White,
+                                        shape = RoundedCornerShape(6.dp),
+                                        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFB9BEC5))
+                                    ) {
+                                        Text(
+                                            "보기",
+                                            modifier = Modifier.padding(horizontal = 18.dp, vertical = 6.dp),
+                                            color = textColor,
+                                            fontSize = 16.sp
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        Spacer(Modifier.height(24.dp))
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("스타포인트", color = textColor, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                            Spacer(Modifier.width(10.dp))
+                            Box(
+                                modifier = Modifier
+                                    .size(24.dp)
+                                    .clip(RoundedCornerShape(5.dp))
+                                    .background(Color(0xFFF0F1F2))
+                            )
+                            Spacer(Modifier.weight(1f))
+                            Box(
+                                modifier = Modifier
+                                    .width(128.dp)
+                                    .height(34.dp)
+                                    .clip(RoundedCornerShape(7.dp))
+                                    .background(Color(0xFFF0F1F2))
+                            )
+                        }
+                    }
+                }
+
+                PaymentMerchantCard()
+                PaymentHistoryCard()
+                Spacer(Modifier.height(32.dp))
+            }
+        }
+    }
+}
+
+@Composable
+private fun PaymentSegment(title: String, selected: Boolean) {
+    Surface(
+        modifier = Modifier.height(42.dp),
+        color = if (selected) Color.White else Color(0xFFD6D9DC),
+        shape = RoundedCornerShape(22.dp),
+        border = if (selected) androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF9CA1A8)) else null
+    ) {
+        Box(
+            modifier = Modifier.padding(horizontal = 28.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(title, color = Color(0xFF25272B), fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        }
+    }
+}
+
+@Composable
+private fun PaymentMerchantCard() {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 22.dp),
+        color = Color.White,
+        shape = RoundedCornerShape(18.dp)
+    ) {
+        Column(modifier = Modifier.padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text("🏪", fontSize = 25.sp)
+                Spacer(Modifier.width(10.dp))
+                Text("결제 가능 가맹점", color = Color(0xFF25272B), fontSize = 21.sp, fontWeight = FontWeight.Bold)
+                Spacer(Modifier.weight(1f))
+                Text("더보기 ›", color = Color(0xFF6F747B), fontSize = 18.sp)
+            }
+            Spacer(Modifier.height(28.dp))
+            Row(horizontalArrangement = Arrangement.spacedBy(18.dp)) {
+                listOf("🛒", "🛍", "☕", "🍽").forEach {
+                    Box(
+                        modifier = Modifier
+                            .size(58.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFFF0F1F2)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(it, fontSize = 26.sp)
+                    }
+                }
+            }
+            Spacer(Modifier.height(24.dp))
+            Text("모든 편의점 등 전국 가맹점에서", color = Color(0xFF3E4248), fontSize = 20.sp)
+            Spacer(Modifier.height(5.dp))
+            Text("결제 가능합니다.", color = Color(0xFF3E4248), fontSize = 20.sp)
+        }
+    }
+}
+
+@Composable
+private fun PaymentHistoryCard() {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 22.dp),
+        color = Color.White,
+        shape = RoundedCornerShape(18.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("₩", color = Color(0xFF2B8FEA), fontSize = 28.sp, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.width(12.dp))
+            Text("결제 내역", color = Color(0xFF25272B), fontSize = 21.sp, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.weight(1f))
+            Text("전체보기 ›", color = Color(0xFF6F747B), fontSize = 18.sp)
         }
     }
 }
