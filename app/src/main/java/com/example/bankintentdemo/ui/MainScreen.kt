@@ -147,10 +147,18 @@ fun MainScreen() {
         composable(AppRoute.BenefitCouponBox.route) { CouponBoxScreen() }
 
         // 9. 생활 (life)
-        composable(AppRoute.LifeTrainTicket.route) { TrainTicketScreen() }
-        composable(AppRoute.LifePassportRenewal.route) { PassportRenewalScreen() }
-        composable(AppRoute.LifeSmartAirTicket.route) { SmartAirTicketScreen() }
-        composable(AppRoute.LifeTmoneyCharging.route) { TmoneyCharghingScreen() }
+        composable(AppRoute.LifeTrainTicket.route) {
+            TrainTicketScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.LifePassportRenewal.route) {
+            PassportRenewalScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.LifeSmartAirTicket.route) {
+            SmartAirTicketScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.LifeTmoneyCharging.route) {
+            TmoneyCharghingScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 10. 모바일업무지원 (support)
         composable(AppRoute.SupportBranchGuideTicket.route) { BranchGuideTicketScreen() }

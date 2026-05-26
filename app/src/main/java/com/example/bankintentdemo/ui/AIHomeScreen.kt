@@ -1,12 +1,10 @@
 package com.example.bankintentdemo.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import com.example.bankintentdemo.navigation.AppRoute
 import com.example.bankintentdemo.ui.components.*
@@ -14,6 +12,10 @@ import com.example.bankintentdemo.ui.components.*
 @Composable
 fun AIHomeScreen(navController: NavController, viewModel: MainViewModel) {
     var currentPrompt by remember { mutableStateOf("") }
+
+    LaunchedEffect(Unit) {
+        viewModel.toggleAiMode(true)
+    }
 
     Scaffold(
         topBar = {
