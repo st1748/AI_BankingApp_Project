@@ -144,7 +144,9 @@ fun MainScreen() {
 
         // 8. 혜택 (benefit)
         composable(AppRoute.BenefitEvent.route) { EventScreen() }
-        composable(AppRoute.BenefitCouponBox.route) { CouponBoxScreen() }
+        composable(AppRoute.BenefitCouponBox.route) {
+            CouponBoxScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 9. 생활 (life)
         composable(AppRoute.LifeTrainTicket.route) { TrainTicketScreen() }
