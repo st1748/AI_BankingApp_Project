@@ -13,17 +13,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.bankintentdemo.navigation.AppRoute
+import com.example.bankintentdemo.model.PredictionResult
 
 @Composable
-fun Top3ResultCard(navController: NavController, prompt: String) {
-    // 실제 모델이 연동되기 전 임시로 보여줄 가짜 Top 3 결과
-    val dummyResults = listOf(
-        Pair("이체 / 연락처 이체", AppRoute.TransferMain.route),
-        Pair("조회 / 전체계좌조회", AppRoute.InquiryAllAccounts.route),
-        Pair("자산관리 / 지출", AppRoute.AssetExpense.route)
-    )
-
+fun Top3ResultCard(navController: NavController, top3List: List<PredictionResult>) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -34,26 +27,36 @@ fun Top3ResultCard(navController: NavController, prompt: String) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "'$prompt' 분석 결과",
+                text = "분석결과!",
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF0075FF)
             )
             Spacer(modifier = Modifier.height(12.dp))
 
-            dummyResults.forEachIndexed { index, result ->
+            // AI 3개의 결과
+            top3List.forEachIndexed { index, result ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { navController.navigate(result.second) }
+                        // 추후 여기에 result.intentIndex 에 따른 네비게이션 로직 필요!!!!!
+                        .clickable { /* navController.navigate(...) */ }
                         .padding(vertical = 12.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "${index + 1}. ${result.first}", fontWeight = FontWeight.Medium)
-                    Icon(imageVector = Icons.Default.ArrowForward, contentDescription = "이동", tint = Color.LightGray)
+                    Text(text = "${index + 1}. 인텐트 ID: ${result.intentIndex}", fontWeight = FontWeight.Medium)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = "${(result.confidence * 100).toInt()}%",
+                            color = Color(0xFF0075FF),
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Icon(imageVector = Icons.Default.ArrowForward, contentDescription = "이동", tint = Color.LightGray)
+                    }
                 }
-                if (index < dummyResults.size - 1) {
-                    Divider(color = Color(0xFFF0F2F5))
+                if (index < top3List.size - 1) {
+                    HorizontalDivider(color = Color(0xFFF0F2F5)) // 구분선
                 }
             }
         }
