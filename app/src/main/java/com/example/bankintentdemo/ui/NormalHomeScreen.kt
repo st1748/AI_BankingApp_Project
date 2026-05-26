@@ -100,6 +100,9 @@ fun NormalHomeScreen(
             )
             Spacer(Modifier.height(18.dp))
             AccountPagerFooter(
+                page = accountPage,
+                onPreviousPage = { moveAccountPage(-1) },
+                onNextPage = { moveAccountPage(1) },
                 onAllAccountsClick = onAllAccountsClick
             )
             Spacer(Modifier.height(22.dp))
@@ -259,11 +262,6 @@ private fun AccountPager(
                     else -> PrimaryAccountCard(onTransferClick = onTransferClick)
                 }
             }
-            AccountPageIndicator(
-                page = page,
-                onPreviousPage = onPreviousPage,
-                onNextPage = onNextPage
-            )
         }
     }
 }
@@ -389,12 +387,20 @@ private fun AccountPageIndicator(
 
 @Composable
 private fun AccountPagerFooter(
+    page: Int,
+    onPreviousPage: () -> Unit,
+    onNextPage: () -> Unit,
     onAllAccountsClick: () -> Unit
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        AccountPageIndicator(
+            page = page,
+            onPreviousPage = onPreviousPage,
+            onNextPage = onNextPage
+        )
         Spacer(Modifier.weight(1f))
         Surface(
             modifier = Modifier.clickable(onClick = onAllAccountsClick),
@@ -523,7 +529,7 @@ private fun BottomNavigationBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             BottomNavItem("♧", "상품") { onItemClick("추천 상품") }
-            BottomNavItem("◔", "지출") {}
+            BottomNavItem("◔", "지출") { onItemClick("지출") }
             WalletNavItem(onClick = { onItemClick("지갑") })
             BottomNavItem("□", "혜택") { onItemClick("혜택") }
             BottomNavItem("▤", "테마") {}
