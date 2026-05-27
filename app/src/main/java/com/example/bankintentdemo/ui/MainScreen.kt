@@ -76,10 +76,24 @@ import com.example.bankintentdemo.ui.screens.membership.KbYouthClubScreen
 // 12. 사업자 (business) 화면 임포트
 import com.example.bankintentdemo.ui.screens.business.BossPlusScreen
 
+// ai모델 관련 임포트
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.DisposableEffect
+import com.example.bankintentdemo.model.SlmModelManager
+
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
     val mainViewModel: MainViewModel = viewModel()
+
+    // 앱이 실행될 때 AI 엔진(ONNX)을 메모리에 딱 한 번 올림
+    val context = LocalContext.current
+    val modelManager = remember { SlmModelManager(context) }
+    // 메모리 누수를 방지 위해 안전하게 닫음
+    DisposableEffect(Unit) {
+        onDispose { modelManager.close() }
+    }
 
     NavHost(
         navController = navController,
@@ -90,7 +104,11 @@ fun MainScreen() {
             NormalHomeScreen(navController = navController, viewModel = mainViewModel)
         }
         composable(AppRoute.AIHome.route) {
-            AIHomeScreen(navController = navController, viewModel = mainViewModel)
+            AIHomeScreen(
+                navController = navController,
+                viewModel = mainViewModel,
+                modelManager = modelManager
+            )
         }
         composable(AppRoute.MainMenu.route) {
             MenuScreen(navController = navController)
@@ -144,7 +162,9 @@ fun MainScreen() {
 
         // 8. 혜택 (benefit)
         composable(AppRoute.BenefitEvent.route) { EventScreen() }
-        composable(AppRoute.BenefitCouponBox.route) { CouponBoxScreen() }
+        composable(AppRoute.BenefitCouponBox.route) {
+            CouponBoxScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 9. 생활 (life)
         composable(AppRoute.LifeTrainTicket.route) {
@@ -161,11 +181,21 @@ fun MainScreen() {
         }
 
         // 10. 모바일업무지원 (support)
-        composable(AppRoute.SupportBranchGuideTicket.route) { BranchGuideTicketScreen() }
-        composable(AppRoute.SupportCertificateIssue.route) { CertificateIssueScreen() }
-        composable(AppRoute.SupportMediaPassbookIssue.route) { MediaPassbookIssueScreen() }
-        composable(AppRoute.SupportEReceipt.route) { EReceiptScreen() }
-        composable(AppRoute.SupportAccidentReport.route) { AccidentReportScreen() }
+        composable(AppRoute.SupportBranchGuideTicket.route) {
+            BranchGuideTicketScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.SupportCertificateIssue.route) {
+            CertificateIssueScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.SupportMediaPassbookIssue.route) {
+            MediaPassbookIssueScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.SupportEReceipt.route) {
+            EReceiptScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.SupportAccidentReport.route) {
+            AccidentReportScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 11. 멤버십 (membership)
         composable(AppRoute.MembershipKbStarClub.route) { KbStarClubScreen() }

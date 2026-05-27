@@ -37,6 +37,11 @@ android {
     buildFeatures {
         compose = true
     }
+    // 모델 파일 압축 방지설정
+    androidResources {
+        noCompress.add("onnx")
+        noCompress.add("txt")
+    }
 }
 
 dependencies {
@@ -59,4 +64,6 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.compose.material:material-icons-extended")
+
+    implementation("com.microsoft.onnxruntime:onnxruntime-android:1.17.1")
 }
