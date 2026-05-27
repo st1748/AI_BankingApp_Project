@@ -76,10 +76,24 @@ import com.example.bankintentdemo.ui.screens.membership.KbYouthClubScreen
 // 12. 사업자 (business) 화면 임포트
 import com.example.bankintentdemo.ui.screens.business.BossPlusScreen
 
+// ai모델 관련 임포트
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.DisposableEffect
+import com.example.bankintentdemo.model.SlmModelManager
+
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
     val mainViewModel: MainViewModel = viewModel()
+
+    // 앱이 실행될 때 AI 엔진(ONNX)을 메모리에 딱 한 번 올림
+    val context = LocalContext.current
+    val modelManager = remember { SlmModelManager(context) }
+    // 메모리 누수를 방지 위해 안전하게 닫음
+    DisposableEffect(Unit) {
+        onDispose { modelManager.close() }
+    }
 
     NavHost(
         navController = navController,
@@ -90,7 +104,11 @@ fun MainScreen() {
             NormalHomeScreen(navController = navController, viewModel = mainViewModel)
         }
         composable(AppRoute.AIHome.route) {
-            AIHomeScreen(navController = navController, viewModel = mainViewModel)
+            AIHomeScreen(
+                navController = navController,
+                viewModel = mainViewModel,
+                modelManager = modelManager
+            )
         }
         composable(AppRoute.MainMenu.route) {
             MenuScreen(navController = navController)
