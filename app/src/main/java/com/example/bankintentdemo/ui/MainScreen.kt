@@ -136,9 +136,15 @@ fun MainScreen() {
         composable(AppRoute.InquiryAccountManagement.route) { AccountManagementScreen() }
 
         // 3. 이체/출금 (transfer)
-        composable(AppRoute.TransferMain.route) { TransferScreen() }
-        composable(AppRoute.TransferAutomatic.route) { AutomaticTransferScreen() }
-        composable(AppRoute.TransferManagement.route) { TransferManagementScreen() }
+        composable(AppRoute.TransferMain.route) {
+            TransferScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.TransferAutomatic.route) {
+            AutomaticTransferScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.TransferManagement.route) {
+            TransferManagementScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 4. 공과금 (utility)
         composable(AppRoute.UtilityBill.route) { UtilityBillScreen() }
