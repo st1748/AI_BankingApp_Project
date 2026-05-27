@@ -119,7 +119,7 @@ private fun PublicAlertTopBar(
         Text(
             modifier = Modifier.weight(1f),
             text = "공공알리미(국민비서 · 전자문서)",
-            fontSize = 23.sp,
+            fontSize = 21.sp,
             fontWeight = FontWeight.Medium,
             color = Color(0xFF20242A),
             maxLines = 1,
@@ -164,14 +164,14 @@ private fun PublicAlertHero() {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = "국민비서가 처음이신가요?",
-                    fontSize = 21.sp,
+                    fontSize = 19.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF3D4147)
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = "꼭 필요한 행정, 공공 알림 서비스 알아보기",
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     color = Color(0xFF555C63)
                 )
             }
@@ -194,7 +194,7 @@ private fun PublicAlertHero() {
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = "━ • Ⅱ",
-            fontSize = 26.sp,
+            fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF7B8288)
         )
@@ -243,7 +243,7 @@ private fun AlertTab(text: String, selected: Boolean, modifier: Modifier) {
     ) {
         Text(
             text = text,
-            fontSize = 22.sp,
+            fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = if (selected) Color(0xFF20242A) else Color(0xFF8B939B)
         )
@@ -269,14 +269,14 @@ private fun ImportantAlertsSection() {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = "지금 바로 확인해야할 중요 알림",
-                    fontSize = 21.sp,
+                    fontSize = 19.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF3D4147)
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = "아직 읽지 않은 알림이 있어요",
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     color = Color(0xFF555C63)
                 )
             }
@@ -312,7 +312,7 @@ private fun ImportantAlertCard(text: String) {
         Text(
             modifier = Modifier.weight(1f),
             text = text,
-            fontSize = 19.sp,
+            fontSize = 17.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF3D4147),
             maxLines = 1,
@@ -331,7 +331,7 @@ private fun ReceivedDocumentsSection() {
     ) {
         Text(
             text = "받은 문서",
-            fontSize = 30.sp,
+            fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
@@ -343,9 +343,9 @@ private fun ReceivedDocumentsSection() {
         Spacer(modifier = Modifier.height(34.dp))
 
         Row {
-            Text(text = "전체 21", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color(0xFF20242A))
-            Text(text = "  |  ", fontSize = 20.sp, color = Color(0xFFC5CBD1))
-            Text(text = "안읽음 17", fontSize = 20.sp, color = Color(0xFF30343A))
+            Text(text = "전체 21", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF20242A))
+            Text(text = "  |  ", fontSize = 18.sp, color = Color(0xFFC5CBD1))
+            Text(text = "안읽음 17", fontSize = 18.sp, color = Color(0xFF30343A))
         }
 
         Spacer(modifier = Modifier.height(28.dp))
@@ -361,7 +361,7 @@ private fun ReceivedDocumentsSection() {
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             text = "+ 더보기",
-            fontSize = 24.sp,
+            fontSize = 22.sp,
             color = Color(0xFF30343A)
         )
     }
@@ -383,7 +383,7 @@ private fun SegmentControl(left: String, right: String) {
                 .background(Color.White)
                 .padding(vertical = 18.dp),
             text = left,
-            fontSize = 20.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A),
             textAlign = androidx.compose.ui.text.style.TextAlign.Center
@@ -393,7 +393,7 @@ private fun SegmentControl(left: String, right: String) {
                 .weight(1f)
                 .padding(vertical = 18.dp),
             text = right,
-            fontSize = 20.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF8B939B),
             textAlign = androidx.compose.ui.text.style.TextAlign.Center
@@ -415,7 +415,7 @@ private fun DocumentRow(title: String, meta: String) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = title,
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF20242A),
                     maxLines = 1,
@@ -424,7 +424,7 @@ private fun DocumentRow(title: String, meta: String) {
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
                     text = meta,
-                    fontSize = 17.sp,
+                    fontSize = 15.sp,
                     color = Color(0xFF8B939B),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
@@ -432,7 +432,7 @@ private fun DocumentRow(title: String, meta: String) {
             }
             Text(
                 text = "안읽음",
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF2F80ED)
             )
@@ -451,14 +451,14 @@ private fun ManageSection() {
     ) {
         Text(
             text = "신청/관리",
-            fontSize = 30.sp,
+            fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
         Spacer(modifier = Modifier.height(28.dp))
         Row {
-            Text(text = "전체 12", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color(0xFF20242A))
-            Text(text = "  |  신청완료 2  |  미신청 10", fontSize = 20.sp, color = Color(0xFF30343A))
+            Text(text = "전체 12", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF20242A))
+            Text(text = "  |  신청완료 2  |  미신청 10", fontSize = 18.sp, color = Color(0xFF30343A))
         }
         Spacer(modifier = Modifier.height(28.dp))
 
@@ -516,7 +516,7 @@ private fun AgencyCard(modifier: Modifier, agency: AgencyInfo) {
             Spacer(modifier = Modifier.width(10.dp))
             Text(
                 text = agency.title,
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF20242A),
                 maxLines = 1,
@@ -526,7 +526,7 @@ private fun AgencyCard(modifier: Modifier, agency: AgencyInfo) {
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = agency.description,
-            fontSize = 16.sp,
+            fontSize = 14.sp,
             lineHeight = 23.sp,
             color = Color(0xFF7B8288),
             maxLines = 2,
@@ -540,7 +540,7 @@ private fun AgencyCard(modifier: Modifier, agency: AgencyInfo) {
         ) {
             Text(
                 text = agency.action,
-                fontSize = 17.sp,
+                fontSize = 15.sp,
                 color = if (agency.active) Color(0xFF2F80ED) else Color(0xFF30343A)
             )
             Icon(
@@ -563,7 +563,7 @@ private fun GuideSection() {
     ) {
         Text(
             text = "이용안내",
-            fontSize = 30.sp,
+            fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
@@ -594,14 +594,14 @@ private fun GuideSection() {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = "KB공공알리미가 처음이신가요?",
-                    fontSize = 20.sp,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF20242A)
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
                     text = "KB공공알리미 사용법 보러가기",
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                     color = Color(0xFF30343A)
                 )
             }
@@ -617,7 +617,7 @@ private fun GuideSection() {
 
         Text(
             text = "자주 묻는 질문",
-            fontSize = 25.sp,
+            fontSize = 23.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
@@ -637,13 +637,13 @@ private fun GuideSection() {
                 .background(Color(0xFFF5F6F7))
                 .padding(vertical = 36.dp)
         ) {
-            Text(text = "전자문서", fontSize = 21.sp, fontWeight = FontWeight.Bold, color = Color(0xFF6C737A))
+            Text(text = "전자문서", fontSize = 19.sp, fontWeight = FontWeight.Bold, color = Color(0xFF6C737A))
             Spacer(modifier = Modifier.height(18.dp))
-            Text(text = "개인정보처리방침", fontSize = 19.sp, fontWeight = FontWeight.Bold, color = Color(0xFF6C737A))
+            Text(text = "개인정보처리방침", fontSize = 17.sp, fontWeight = FontWeight.Bold, color = Color(0xFF6C737A))
             Spacer(modifier = Modifier.height(28.dp))
-            Text(text = "국민비서", fontSize = 21.sp, fontWeight = FontWeight.Bold, color = Color(0xFF6C737A))
+            Text(text = "국민비서", fontSize = 19.sp, fontWeight = FontWeight.Bold, color = Color(0xFF6C737A))
             Spacer(modifier = Modifier.height(18.dp))
-            Text(text = "서비스 이용약관  |  개인정보처리방침", fontSize = 17.sp, color = Color(0xFF8B939B))
+            Text(text = "서비스 이용약관  |  개인정보처리방침", fontSize = 15.sp, color = Color(0xFF8B939B))
         }
     }
 }
@@ -666,7 +666,7 @@ private fun FaqRow(text: String) {
             Text(
                 modifier = Modifier.weight(1f),
                 text = text,
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 color = Color(0xFF30343A)
             )
             Icon(

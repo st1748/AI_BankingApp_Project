@@ -109,7 +109,7 @@ private fun NftTopBar(
         Text(
             modifier = Modifier.weight(1f),
             text = "NFT 지갑",
-            fontSize = 25.sp,
+            fontSize = 23.sp,
             fontWeight = FontWeight.Medium,
             color = Color(0xFF20242A)
         )
@@ -156,7 +156,7 @@ private fun NftCollectionSection() {
                     .border(1.dp, Color(0xFFC5CDD4), RoundedCornerShape(28.dp))
                     .padding(horizontal = 22.dp, vertical = 11.dp),
                 text = "국민지갑 메인",
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 color = Color(0xFF30343A)
             )
         }
@@ -165,7 +165,7 @@ private fun NftCollectionSection() {
 
         Text(
             text = "나만의 NFT 컬렉션",
-            fontSize = 27.sp,
+            fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
@@ -182,12 +182,12 @@ private fun NftCollectionSection() {
                     .background(Color(0xFFE2E9F8))
                     .padding(horizontal = 20.dp, vertical = 10.dp),
                 text = "물색설경운치4818 〉",
-                fontSize = 21.sp,
+                fontSize = 19.sp,
                 color = Color(0xFF30343A)
             )
             Spacer(modifier = Modifier.weight(1f))
-            Text(text = "전체 보기 ", fontSize = 19.sp, color = Color(0xFF555C63))
-            Text(text = "0", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color(0xFF2F80ED))
+            Text(text = "전체 보기 ", fontSize = 17.sp, color = Color(0xFF555C63))
+            Text(text = "0", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF2F80ED))
             Icon(
                 modifier = Modifier.size(28.dp),
                 imageVector = Icons.Outlined.ChevronRight,
@@ -209,7 +209,7 @@ private fun NftCollectionSection() {
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             text = "거래 내역",
-            fontSize = 23.sp,
+            fontSize = 21.sp,
             color = Color(0xFF555C63),
             textAlign = TextAlign.Center
         )
@@ -233,7 +233,7 @@ private fun EmptyNftState() {
         Spacer(modifier = Modifier.height(52.dp))
         Text(
             text = "보유한 NFT가 없어요.",
-            fontSize = 25.sp,
+            fontSize = 23.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A),
             textAlign = TextAlign.Center
@@ -254,13 +254,13 @@ private fun NftGuideBanner() {
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = "NFT는 어떻게 모으나요?",
-                fontSize = 18.sp,
+                fontSize = 16.sp,
                 color = Color(0xFF20242A)
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "NFT 소장 방법 알아보기",
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF20242A)
             )
@@ -285,7 +285,7 @@ private fun NftBadge() {
         ) {
             Text(
                 text = "NFT",
-                fontSize = 17.sp,
+                fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF7A56D6)
             )
@@ -299,7 +299,7 @@ private fun NftBadge() {
                 .border(3.dp, Color(0xFF20242A), CircleShape),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = "✓", fontSize = 17.sp, fontWeight = FontWeight.Bold, color = Color(0xFF20242A))
+            Text(text = "✓", fontSize = 15.sp, fontWeight = FontWeight.Bold, color = Color(0xFF20242A))
         }
     }
 }
@@ -314,7 +314,7 @@ private fun NftEventSection() {
     ) {
         Text(
             text = "NFT 지갑 이벤트 안내",
-            fontSize = 26.sp,
+            fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
@@ -335,7 +335,7 @@ private fun NftEventSection() {
             Text(
                 modifier = Modifier.weight(1f),
                 text = "안녕 나는 웰컴이야~!!",
-                fontSize = 22.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF20242A)
             )

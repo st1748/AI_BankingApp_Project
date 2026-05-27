@@ -119,7 +119,7 @@ private fun MobileIdTopBar(
         Text(
             modifier = Modifier.weight(1f),
             text = "모바일 신분증",
-            fontSize = 25.sp,
+            fontSize = 23.sp,
             fontWeight = FontWeight.Medium,
             color = Color(0xFF20242A)
         )
@@ -164,7 +164,7 @@ private fun WalletMainButtonArea() {
                 .border(1.dp, Color(0xFFC5CDD4), RoundedCornerShape(28.dp))
                 .padding(horizontal = 22.dp, vertical = 11.dp),
             text = "국민지갑 메인",
-            fontSize = 18.sp,
+            fontSize = 16.sp,
             color = Color(0xFF30343A)
         )
     }
@@ -181,7 +181,7 @@ private fun MobileIdHeroSection() {
     ) {
         Text(
             text = "신분증이 필요한 순간\n모바일 신분증 하나로",
-            fontSize = 30.sp,
+            fontSize = 28.sp,
             lineHeight = 40.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A),
@@ -192,7 +192,7 @@ private fun MobileIdHeroSection() {
 
         Text(
             text = "안전하고 간편한 모바일 신분증\n바로 발급해보세요",
-            fontSize = 20.sp,
+            fontSize = 18.sp,
             lineHeight = 29.sp,
             color = Color(0xFF555C63),
             textAlign = TextAlign.Center
@@ -248,8 +248,8 @@ private fun MobileIdCardStack() {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "‹ 운전면허증", fontSize = 15.sp, color = Color(0xFF59616A))
-                Text(text = "주민등록증 ›", fontSize = 15.sp, color = Color(0xFF59616A))
+                Text(text = "‹ 운전면허증", fontSize = 13.sp, color = Color(0xFF59616A))
+                Text(text = "주민등록증 ›", fontSize = 13.sp, color = Color(0xFF59616A))
             }
 
             IdCard(
@@ -269,7 +269,7 @@ private fun MobileIdCardStack() {
                     .background(Color.White)
                     .padding(horizontal = 20.dp, vertical = 9.dp),
                 text = "눌러서 정보 확인",
-                fontSize = 14.sp,
+                fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF20242A)
             )
@@ -312,7 +312,7 @@ private fun IdCard(
         Text(
             modifier = Modifier.align(Alignment.TopEnd),
             text = title,
-            fontSize = 14.sp,
+            fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
@@ -339,9 +339,9 @@ private fun IdCard(
                 .padding(end = 6.dp),
             horizontalAlignment = Alignment.End
         ) {
-            Text(text = "김국민", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color(0xFF20242A))
+            Text(text = "김국민", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color(0xFF20242A))
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "123456-1234567", fontSize = 13.sp, color = Color(0xFF30343A))
+            Text(text = "123456-1234567", fontSize = 11.sp, color = Color(0xFF30343A))
         }
 
         Box(
@@ -365,7 +365,7 @@ private fun MobileIdIntroSection() {
     ) {
         Text(
             text = "모바일 신분증이란?",
-            fontSize = 30.sp,
+            fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A),
             textAlign = TextAlign.Center
@@ -375,7 +375,7 @@ private fun MobileIdIntroSection() {
 
         Text(
             text = "사용자의 스마트폰에 저장되어,\n실물 신분증과 동일한 효력을 갖는\n디지털 신분증 이에요",
-            fontSize = 21.sp,
+            fontSize = 19.sp,
             lineHeight = 31.sp,
             color = Color(0xFF555C63),
             textAlign = TextAlign.Center
@@ -399,7 +399,7 @@ private fun IcIdGuideCard() {
     ) {
         Text(
             text = "IC칩이 내장된 신분증이 필요해요",
-            fontSize = 23.sp,
+            fontSize = 21.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A),
             textAlign = TextAlign.Center
@@ -409,7 +409,7 @@ private fun IcIdGuideCard() {
 
         Text(
             text = "IC 신분증을 스마트폰에 접촉하여\n모바일 신분증을 발급할 수 있으며,\n신분증 하단에 모바일 신분증 표시가 있어요",
-            fontSize = 20.sp,
+            fontSize = 18.sp,
             lineHeight = 31.sp,
             color = Color(0xFF555C63),
             textAlign = TextAlign.Center
@@ -438,13 +438,13 @@ private fun IcIdGuideCard() {
 
             Text(
                 text = "예시. IC 운전면허증",
-                fontSize = 19.sp,
+                fontSize = 17.sp,
                 color = Color(0xFF6C737A)
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = "(출처 : 도로교통공단)",
-                fontSize = 17.sp,
+                fontSize = 15.sp,
                 color = Color(0xFF8B939B)
             )
         }
@@ -462,7 +462,7 @@ private fun MobileIdUsageSection() {
     ) {
         Text(
             text = "모바일 신분증\n어디에 사용하나요?",
-            fontSize = 30.sp,
+            fontSize = 28.sp,
             lineHeight = 39.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A),
@@ -473,7 +473,7 @@ private fun MobileIdUsageSection() {
 
         Text(
             text = "온/오프라인 실물 신분증이 필요한 모든 순간에\n동일하게 사용할 수 있어요",
-            fontSize = 20.sp,
+            fontSize = 18.sp,
             lineHeight = 30.sp,
             color = Color(0xFF555C63),
             textAlign = TextAlign.Center
@@ -538,7 +538,7 @@ private fun UsageCard(
 
         Text(
             text = title,
-            fontSize = 22.sp,
+            fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A),
             textAlign = TextAlign.Center
@@ -548,7 +548,7 @@ private fun UsageCard(
 
         Text(
             text = subtitle,
-            fontSize = 17.sp,
+            fontSize = 15.sp,
             color = Color(0xFF555C63),
             textAlign = TextAlign.Center
         )
@@ -566,7 +566,7 @@ private fun MobileIdIssueSection() {
     ) {
         Text(
             text = "모바일 신분증\n어떻게 발급받나요?",
-            fontSize = 30.sp,
+            fontSize = 28.sp,
             lineHeight = 39.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A),
@@ -577,7 +577,7 @@ private fun MobileIdIssueSection() {
 
         Text(
             text = "IC 신분증을 가지고 계시다면\n모바일 신분증을 발급받을 수 있어요",
-            fontSize = 20.sp,
+            fontSize = 18.sp,
             lineHeight = 30.sp,
             color = Color(0xFF555C63),
             textAlign = TextAlign.Center
@@ -591,7 +591,7 @@ private fun MobileIdIssueSection() {
                 .background(Color(0xFFEAF6FF))
                 .padding(horizontal = 28.dp, vertical = 11.dp),
             text = "01",
-            fontSize = 20.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF2F80ED)
         )
@@ -611,7 +611,7 @@ private fun BottomUseButton() {
     ) {
         Text(
             text = "모바일 신분증 이용하기",
-            fontSize = 25.sp,
+            fontSize = 23.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White
         )

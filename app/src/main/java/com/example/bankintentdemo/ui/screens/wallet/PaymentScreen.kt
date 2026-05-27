@@ -121,7 +121,7 @@ private fun WalletTopBar(
         Text(
             modifier = Modifier.weight(1f),
             text = title,
-            fontSize = 25.sp,
+            fontSize = 23.sp,
             fontWeight = FontWeight.Medium,
             color = Color(0xFF20242A)
         )
@@ -197,7 +197,7 @@ private fun PaymentCard() {
                 .border(1.dp, Color(0xFF5F666D), RoundedCornerShape(2.dp))
                 .padding(horizontal = 42.dp, vertical = 14.dp),
             text = "QR 코드 스캔",
-            fontSize = 21.sp,
+            fontSize = 19.sp,
             color = Color(0xFF20242A)
         )
 
@@ -214,7 +214,7 @@ private fun PaymentCard() {
             Text(
                 modifier = Modifier.weight(1f),
                 text = "스타포인트",
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF20242A)
             )
@@ -249,14 +249,14 @@ private fun PaymentSegment() {
                 .background(Color(0xFFF7F8F9))
                 .padding(horizontal = 32.dp, vertical = 10.dp),
             text = "QR결제",
-            fontSize = 19.sp,
+            fontSize = 17.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
         Text(
             modifier = Modifier.padding(horizontal = 32.dp, vertical = 10.dp),
             text = "제로페이",
-            fontSize = 19.sp,
+            fontSize = 17.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF727981)
         )
@@ -277,7 +277,7 @@ private fun AccountBox() {
             Text(
                 modifier = Modifier.weight(1f),
                 text = "출금계좌",
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF20242A)
             )
@@ -288,7 +288,7 @@ private fun AccountBox() {
                 tint = Color(0xFFC08418)
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "쿠폰함", fontSize = 18.sp, color = Color(0xFF20242A))
+            Text(text = "쿠폰함", fontSize = 16.sp, color = Color(0xFF20242A))
         }
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -315,7 +315,7 @@ private fun AccountBox() {
                     .border(1.dp, Color(0xFFC5CBD1), RoundedCornerShape(6.dp))
                     .padding(horizontal = 18.dp, vertical = 8.dp),
                 text = "보기",
-                fontSize = 16.sp,
+                fontSize = 14.sp,
                 color = Color(0xFF5F666D)
             )
         }
@@ -343,11 +343,11 @@ private fun MerchantCard() {
             Text(
                 modifier = Modifier.weight(1f),
                 text = "결제 가능 가맹점",
-                fontSize = 20.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF20242A)
             )
-            Text(text = "더보기", fontSize = 17.sp, color = Color(0xFF5F666D))
+            Text(text = "더보기", fontSize = 15.sp, color = Color(0xFF5F666D))
             Icon(
                 modifier = Modifier.size(24.dp),
                 imageVector = Icons.Outlined.ChevronRight,
@@ -369,7 +369,7 @@ private fun MerchantCard() {
 
         Text(
             text = "모든 편의점 등 전국 가맹점에서\n결제 가능합니다.",
-            fontSize = 19.sp,
+            fontSize = 17.sp,
             lineHeight = 27.sp,
             color = Color(0xFF30343A),
             textAlign = TextAlign.Center
@@ -415,11 +415,11 @@ private fun HistoryCard() {
         Text(
             modifier = Modifier.weight(1f),
             text = "결제 내역",
-            fontSize = 20.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
-        Text(text = "전체보기", fontSize = 17.sp, color = Color(0xFF5F666D))
+        Text(text = "전체보기", fontSize = 15.sp, color = Color(0xFF5F666D))
         Icon(
             modifier = Modifier.size(24.dp),
             imageVector = Icons.Outlined.ChevronRight,
