@@ -72,20 +72,20 @@ fun MyDataSettingScreen(
                 .fillMaxSize()
                 .padding(horizontal = 28.dp)
         ) {
-            Spacer(modifier = Modifier.height(82.dp))
+            Spacer(modifier = Modifier.height(72.dp))
 
             Text(
                 text = "연결된 기관",
-                fontSize = 28.sp,
+                fontSize = 23.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF20242A)
             )
 
-            Spacer(modifier = Modifier.height(34.dp))
+            Spacer(modifier = Modifier.height(28.dp))
 
             ConnectedAgencyBox()
 
-            Spacer(modifier = Modifier.height(58.dp))
+            Spacer(modifier = Modifier.height(48.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -101,7 +101,7 @@ fun MyDataSettingScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(38.dp))
 
             MyDataManageRow()
         }
@@ -133,7 +133,7 @@ private fun MyDataTopBar(
         Text(
             modifier = Modifier.weight(1f),
             text = "마이데이터 설정",
-            fontSize = 25.sp,
+            fontSize = 20.sp,
             fontWeight = FontWeight.Medium,
             color = Color(0xFF20242A)
         )
@@ -169,12 +169,12 @@ private fun ConnectedAgencyBox() {
     ) {
         Text(
             text = "카드",
-            fontSize = 22.sp,
+            fontSize = 17.sp,
             color = Color(0xFF6C737A)
         )
         Text(
             text = " (1)",
-            fontSize = 22.sp,
+            fontSize = 17.sp,
             color = Color(0xFF2F80ED)
         )
         Spacer(modifier = Modifier.weight(1f))
@@ -197,7 +197,7 @@ private fun MyDataOutlineButton(modifier: Modifier, text: String) {
     ) {
         Text(
             text = text,
-            fontSize = 20.sp,
+            fontSize = 15.sp,
             color = Color(0xFF30343A)
         )
     }
@@ -219,12 +219,12 @@ private fun MyDataManageRow() {
         Text(
             modifier = Modifier.weight(1f),
             text = "마이데이터 관리",
-            fontSize = 22.sp,
+            fontSize = 17.sp,
             color = Color(0xFF30343A)
         )
         Text(
             text = "개인정보처리방침",
-            fontSize = 18.sp,
+            fontSize = 13.sp,
             color = Color(0xFF6C737A),
             textDecoration = TextDecoration.Underline
         )

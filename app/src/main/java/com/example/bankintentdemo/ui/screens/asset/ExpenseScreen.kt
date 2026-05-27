@@ -104,7 +104,7 @@ fun ExpenseScreen(
             CardPaymentCard()
             RegularExpenseCard()
             UsefulFeaturesCard()
-            Spacer(modifier = Modifier.height(54.dp))
+            Spacer(modifier = Modifier.height(44.dp))
         }
     }
 }
@@ -134,7 +134,7 @@ private fun ExpenseTopBar(
         Text(
             modifier = Modifier.weight(1f),
             text = "지출",
-            fontSize = 25.sp,
+            fontSize = 20.sp,
             fontWeight = FontWeight.Medium,
             color = Color(0xFF20242A)
         )
@@ -190,11 +190,11 @@ private fun ExpenseTab(text: String, selected: Boolean, modifier: Modifier) {
     ) {
         Text(
             text = text,
-            fontSize = 22.sp,
+            fontSize = 17.sp,
             fontWeight = FontWeight.Bold,
             color = if (selected) Color(0xFF20242A) else Color(0xFF8B939B)
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         Box(
             modifier = Modifier
                 .fillMaxWidth(0.55f)
@@ -209,25 +209,25 @@ private fun ExpenseSummarySection() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 28.dp, vertical = 54.dp)
+            .padding(horizontal = 28.dp, vertical = 46.dp)
     ) {
         Text(
             text = "05월 나의 총 지출 ⟳",
-            fontSize = 22.sp,
+            fontSize = 17.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF3D4147)
         )
-        Spacer(modifier = Modifier.height(18.dp))
+        Spacer(modifier = Modifier.height(14.dp))
         Text(
             text = "243,450원⌄",
-            fontSize = 42.sp,
+            fontSize = 37.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
-        Spacer(modifier = Modifier.height(26.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = "지난달 보다 39,500원 더 쓰고 있어요.",
-            fontSize = 21.sp,
+            fontSize = 16.sp,
             color = Color(0xFF30343A)
         )
     }
@@ -240,24 +240,24 @@ private fun InsightCard() {
             .padding(horizontal = 28.dp)
             .clip(RoundedCornerShape(14.dp))
             .background(Color.White)
-            .padding(horizontal = 24.dp, vertical = 34.dp)
+            .padding(horizontal = 24.dp, vertical = 26.dp)
     ) {
         Text(
             text = "디지털 PB가 분석했어요 ？",
-            fontSize = 20.sp,
+            fontSize = 15.sp,
             color = Color(0xFF8B939B)
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = "이번 달 지출 1위는\n생활이에요",
-            fontSize = 27.sp,
+            fontSize = 22.sp,
             lineHeight = 36.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
-        Spacer(modifier = Modifier.height(34.dp))
+        Spacer(modifier = Modifier.height(28.dp))
         RecentExpenseBox()
-        Spacer(modifier = Modifier.height(34.dp))
+        Spacer(modifier = Modifier.height(28.dp))
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -268,7 +268,7 @@ private fun InsightCard() {
         ) {
             Text(
                 text = "지출내역 점검하기",
-                fontSize = 21.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF6B2E18)
             )
@@ -283,15 +283,15 @@ private fun RecentExpenseBox() {
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
             .background(Color(0xFFF6F6F6))
-            .padding(horizontal = 24.dp, vertical = 26.dp)
+            .padding(horizontal = 24.dp, vertical = 21.dp)
     ) {
         Text(
             text = "최근 지출",
-            fontSize = 21.sp,
+            fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
-        Spacer(modifier = Modifier.height(26.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         ExpenseHistoryRow(Icons.Outlined.Coffee, Color(0xFF9B755F), "카페캠퍼", "05.27", "-2,000원")
         ExpenseHistoryRow(Icons.Outlined.Storefront, Color(0xFF6EA0F5), "지에스25 신촌그랑자이점", "05.26", "-13,600원")
         ExpenseHistoryRow(Icons.Outlined.Storefront, Color(0xFF6EA0F5), "지에스25 신촌그랑자이점", "05.25", "-15,100원")
@@ -309,19 +309,19 @@ private fun ExpenseHistoryRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 13.dp),
+            .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         CircleIcon(icon = icon, color = color)
         Spacer(modifier = Modifier.width(16.dp))
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = title, fontSize = 18.sp, color = Color(0xFF30343A))
+            Text(text = title, fontSize = 13.sp, color = Color(0xFF30343A))
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = date, fontSize = 17.sp, color = Color(0xFF8B939B))
+            Text(text = date, fontSize = 12.sp, color = Color(0xFF8B939B))
         }
         Text(
             text = amount,
-            fontSize = 20.sp,
+            fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
@@ -333,7 +333,7 @@ private fun IndicatorDots() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 18.dp),
+            .padding(vertical = 15.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -368,7 +368,7 @@ private fun CashFlowButton() {
             .fillMaxWidth()
             .clip(RoundedCornerShape(14.dp))
             .background(Color.White)
-            .padding(horizontal = 24.dp, vertical = 24.dp),
+            .padding(horizontal = 24.dp, vertical = 19.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -381,7 +381,7 @@ private fun CashFlowButton() {
         Text(
             modifier = Modifier.weight(1f),
             text = "현금흐름 한눈에 확인하기!",
-            fontSize = 19.sp,
+            fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
@@ -398,23 +398,23 @@ private fun CashFlowButton() {
 private fun WeeklyReportCard() {
     Column(
         modifier = Modifier
-            .padding(horizontal = 28.dp, vertical = 24.dp)
+            .padding(horizontal = 28.dp, vertical = 19.dp)
             .clip(RoundedCornerShape(14.dp))
             .background(Color.White)
-            .padding(horizontal = 24.dp, vertical = 34.dp)
+            .padding(horizontal = 24.dp, vertical = 26.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = "지난 주 소비리포트",
-                    fontSize = 26.sp,
+                    fontSize = 21.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF20242A)
                 )
-                Spacer(modifier = Modifier.height(18.dp))
+                Spacer(modifier = Modifier.height(14.dp))
                 Text(
                     text = "전 주보다 113,950원 많이 썼어요",
-                    fontSize = 19.sp,
+                    fontSize = 14.sp,
                     color = Color(0xFF7B8288)
                 )
             }
@@ -425,7 +425,7 @@ private fun WeeklyReportCard() {
                 tint = Color(0xFF8B939B)
             )
         }
-        Spacer(modifier = Modifier.height(36.dp))
+        Spacer(modifier = Modifier.height(30.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -445,21 +445,21 @@ private fun BarColumn(label: String, amount: String, color: Color, height: Int) 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = amount,
-            fontSize = 19.sp,
+            fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Box(
             modifier = Modifier
                 .size(width = 76.dp, height = height.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .background(color)
         )
-        Spacer(modifier = Modifier.height(18.dp))
+        Spacer(modifier = Modifier.height(14.dp))
         Text(
             text = label,
-            fontSize = 18.sp,
+            fontSize = 13.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF30343A)
         )
@@ -473,13 +473,13 @@ private fun AssetExpenseCard() {
             .padding(horizontal = 28.dp)
             .clip(RoundedCornerShape(14.dp))
             .background(Color.White)
-            .padding(horizontal = 24.dp, vertical = 34.dp)
+            .padding(horizontal = 24.dp, vertical = 26.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 modifier = Modifier.weight(1f),
                 text = "자산별 지출",
-                fontSize = 27.sp,
+                fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF20242A)
             )
@@ -487,32 +487,32 @@ private fun AssetExpenseCard() {
                 modifier = Modifier
                     .clip(RoundedCornerShape(22.dp))
                     .background(Color(0xFFF1F3F5))
-                    .padding(horizontal = 18.dp, vertical = 9.dp),
+                    .padding(horizontal = 18.dp, vertical = 7.dp),
                 text = "+ 자산 추가",
-                fontSize = 17.sp,
+                fontSize = 12.sp,
                 color = Color(0xFF30343A)
             )
         }
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         AssetExpenseRow(Icons.Outlined.CreditCard, Color(0xFFFF874D), "카드", "245,450원")
         AssetExpenseRow(Icons.Outlined.Savings, Color(0xFFF36F77), "계좌", "연결하기")
         AssetExpenseRow(Icons.Outlined.Payments, Color(0xFF4C85F0), "간편결제", "연결하기")
         AssetExpenseRow(Icons.Outlined.AccountBalanceWallet, Color(0xFFA968E8), "휴대폰 소액결제", "연결하기")
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(18.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(10.dp))
                 .background(Color(0xFFFFF5CE))
-                .padding(horizontal = 22.dp, vertical = 20.dp),
+                .padding(horizontal = 22.dp, vertical = 15.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "💰", fontSize = 24.sp)
+            Text(text = "💰", fontSize = 19.sp)
             Spacer(modifier = Modifier.width(12.dp))
             Text(
                 modifier = Modifier.weight(1f),
             text = "분류가 필요한 지출 4건이 있어요",
-                fontSize = 20.sp,
+                fontSize = 15.sp,
                 color = Color(0xFF30343A)
             )
             Icon(
@@ -530,7 +530,7 @@ private fun AssetExpenseRow(icon: ImageVector, color: Color, title: String, valu
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 13.dp),
+            .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         CircleIcon(icon = icon, color = color)
@@ -538,12 +538,12 @@ private fun AssetExpenseRow(icon: ImageVector, color: Color, title: String, valu
         Text(
             modifier = Modifier.weight(1f),
             text = title,
-            fontSize = 21.sp,
+            fontSize = 16.sp,
             color = Color(0xFF30343A)
         )
         Text(
             text = value,
-            fontSize = 20.sp,
+            fontSize = 15.sp,
             fontWeight = FontWeight.Bold,
             color = if (value == "0원") Color(0xFF20242A) else Color(0xFF7B8288)
         )
@@ -560,23 +560,23 @@ private fun AssetExpenseRow(icon: ImageVector, color: Color, title: String, valu
 private fun CardPaymentCard() {
     Column(
         modifier = Modifier
-            .padding(horizontal = 28.dp, vertical = 24.dp)
+            .padding(horizontal = 28.dp, vertical = 19.dp)
             .clip(RoundedCornerShape(14.dp))
             .background(Color.White)
-            .padding(horizontal = 24.dp, vertical = 34.dp),
+            .padding(horizontal = 24.dp, vertical = 26.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 modifier = Modifier.weight(1f),
                 text = "카드 결제예정",
-                fontSize = 27.sp,
+                fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF20242A)
             )
             Text(
                 text = "0원",
-                fontSize = 25.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF20242A)
             )
@@ -587,7 +587,7 @@ private fun CardPaymentCard() {
                 tint = Color(0xFF8B939B)
             )
         }
-        Spacer(modifier = Modifier.height(46.dp))
+        Spacer(modifier = Modifier.height(36.dp))
         Box(
             modifier = Modifier
                 .size(width = 230.dp, height = 150.dp)
@@ -602,12 +602,12 @@ private fun CardPaymentCard() {
                 tint = Color.White
             )
         }
-        Spacer(modifier = Modifier.height(24.dp))
-        Text(text = "신용카드", fontSize = 19.sp, color = Color(0xFF7B8288))
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(18.dp))
+        Text(text = "신용카드", fontSize = 14.sp, color = Color(0xFF7B8288))
+        Spacer(modifier = Modifier.height(6.dp))
         Text(
             text = "연결하기",
-            fontSize = 22.sp,
+            fontSize = 17.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
@@ -621,27 +621,27 @@ private fun RegularExpenseCard() {
             .padding(horizontal = 28.dp)
             .clip(RoundedCornerShape(14.dp))
             .background(Color.White)
-            .padding(horizontal = 24.dp, vertical = 34.dp),
+            .padding(horizontal = 24.dp, vertical = 26.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = "이번 달 정기지출",
-                    fontSize = 27.sp,
+                    fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF20242A)
                 )
-                Spacer(modifier = Modifier.height(18.dp))
+                Spacer(modifier = Modifier.height(14.dp))
                 Text(
                     text = "총 0건이 남아있어요",
-                    fontSize = 19.sp,
+                    fontSize = 14.sp,
                     color = Color(0xFF7B8288)
                 )
             }
             Text(
                 text = "0원",
-                fontSize = 25.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF20242A)
             )
@@ -652,7 +652,7 @@ private fun RegularExpenseCard() {
                 tint = Color(0xFF8B939B)
             )
         }
-        Spacer(modifier = Modifier.height(54.dp))
+        Spacer(modifier = Modifier.height(44.dp))
         Box(
             modifier = Modifier
                 .size(76.dp)
@@ -667,16 +667,16 @@ private fun RegularExpenseCard() {
                 tint = Color.White
             )
         }
-        Spacer(modifier = Modifier.height(28.dp))
+        Spacer(modifier = Modifier.height(22.dp))
         Text(
             text = "다가오는 지출이 없어요",
-            fontSize = 20.sp,
+            fontSize = 15.sp,
             color = Color(0xFF30343A)
         )
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = "자산 추가하고 다가오는 지출 찾기",
-            fontSize = 19.sp,
+            fontSize = 14.sp,
             color = Color(0xFF7B8288),
             textDecoration = androidx.compose.ui.text.style.TextDecoration.Underline
         )
@@ -687,18 +687,18 @@ private fun RegularExpenseCard() {
 private fun UsefulFeaturesCard() {
     Column(
         modifier = Modifier
-            .padding(horizontal = 28.dp, vertical = 24.dp)
+            .padding(horizontal = 28.dp, vertical = 19.dp)
             .clip(RoundedCornerShape(14.dp))
             .background(Color.White)
-            .padding(horizontal = 24.dp, vertical = 34.dp)
+            .padding(horizontal = 24.dp, vertical = 26.dp)
     ) {
         Text(
             text = "지출관리에 유용한 기능",
-            fontSize = 27.sp,
+            fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
-        Spacer(modifier = Modifier.height(34.dp))
+        Spacer(modifier = Modifier.height(28.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
             FeatureCard(
                 modifier = Modifier.weight(1f),
@@ -736,14 +736,14 @@ private fun FeatureCard(
     ) {
         Text(
             text = title,
-            fontSize = 23.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
-        Spacer(modifier = Modifier.height(18.dp))
+        Spacer(modifier = Modifier.height(14.dp))
         Text(
             text = description,
-            fontSize = 17.sp,
+            fontSize = 12.sp,
             lineHeight = 24.sp,
             color = Color(0xFF7B8288)
         )
