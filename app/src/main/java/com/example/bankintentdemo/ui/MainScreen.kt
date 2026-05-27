@@ -148,11 +148,21 @@ fun MainScreen() {
         composable(AppRoute.AssetMyDataSetting.route) { MyDataSettingScreen() }
 
         // 6. 외환 (exchange)
-        composable(AppRoute.ExchangeRate.route) { ExchangeRateScreen() }
-        composable(AppRoute.ExchangeCurrency.route) { CurrencyExchangeScreen() }
-        composable(AppRoute.ExchangeOverseasRemittance.route) { OverseasRemittanceScreen() }
-        composable(AppRoute.ExchangeDomesticForeign.route) { DomesticForeignTransferScreen() }
-        composable(AppRoute.ExchangeManagement.route) { ExchangeManagementScreen() }
+        composable(AppRoute.ExchangeRate.route) {
+            ExchangeRateScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.ExchangeCurrency.route) {
+            CurrencyExchangeScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.ExchangeOverseasRemittance.route) {
+            OverseasRemittanceScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.ExchangeDomesticForeign.route) {
+            DomesticForeignTransferScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.ExchangeManagement.route) {
+            ExchangeManagementScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 7. 지갑 (wallet)
         composable(AppRoute.WalletMobileId.route) { MobileIdScreen() }

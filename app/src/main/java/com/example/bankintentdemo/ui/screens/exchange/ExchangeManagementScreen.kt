@@ -1,13 +1,24 @@
 package com.example.bankintentdemo.ui.screens.exchange
 
 import androidx.compose.runtime.Composable
-import com.example.bankintentdemo.ui.components.PlaceholderScreen
+import androidx.navigation.NavController
+import com.example.bankintentdemo.ui.MainViewModel
 
 @Composable
-fun ExchangeManagementScreen() {
-    // 템플릿에 카테고리와 메뉴명만 넘긴다 - 임시
-    PlaceholderScreen(
-        category = "외환",
-        menuName = "외환정보 관리"
+fun ExchangeManagementScreen(
+    navController: NavController,
+    viewModel: MainViewModel
+) {
+    ExchangeMenuScaffold(
+        navController = navController,
+        viewModel = viewModel,
+        title = "외환정보관리",
+        menus = listOf(
+            "영문정보관리",
+            "외화알림서비스",
+            "외화송금 국내/해외 주소록",
+            "해외송금 수수료 납부/조회",
+            "외화수표 수수료 납부/조회"
+        )
     )
 }
