@@ -31,6 +31,10 @@ fun AIHomeScreen(
         viewModel.toggleAiMode(true)
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.toggleAiMode(true)
+    }
+
     Scaffold(
         topBar = {
             TopBar(
