@@ -155,10 +155,18 @@ fun MainScreen() {
         composable(AppRoute.ExchangeManagement.route) { ExchangeManagementScreen() }
 
         // 7. 지갑 (wallet)
-        composable(AppRoute.WalletMobileId.route) { MobileIdScreen() }
-        composable(AppRoute.WalletPayment.route) { PaymentScreen() }
-        composable(AppRoute.WalletNft.route) { NftScreen() }
-        composable(AppRoute.WalletPublicAlert.route) { PublicAlertScreen() }
+        composable(AppRoute.WalletMobileId.route) {
+            MobileIdScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.WalletPayment.route) {
+            PaymentScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.WalletNft.route) {
+            NftScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.WalletPublicAlert.route) {
+            PublicAlertScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 8. 혜택 (benefit)
         composable(AppRoute.BenefitEvent.route) { EventScreen() }
