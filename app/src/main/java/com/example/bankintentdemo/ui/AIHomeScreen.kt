@@ -15,6 +15,10 @@ import com.example.bankintentdemo.ui.components.*
 fun AIHomeScreen(navController: NavController, viewModel: MainViewModel) {
     var currentPrompt by remember { mutableStateOf("") }
 
+    LaunchedEffect(Unit) {
+        viewModel.toggleAiMode(true)
+    }
+
     Scaffold(
         topBar = {
             TopBar(
