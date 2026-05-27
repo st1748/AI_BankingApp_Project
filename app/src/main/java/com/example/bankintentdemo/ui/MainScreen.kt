@@ -173,11 +173,21 @@ fun MainScreen() {
         composable(AppRoute.LifeTmoneyCharging.route) { TmoneyCharghingScreen() }
 
         // 10. 모바일업무지원 (support)
-        composable(AppRoute.SupportBranchGuideTicket.route) { BranchGuideTicketScreen() }
-        composable(AppRoute.SupportCertificateIssue.route) { CertificateIssueScreen() }
-        composable(AppRoute.SupportMediaPassbookIssue.route) { MediaPassbookIssueScreen() }
-        composable(AppRoute.SupportEReceipt.route) { EReceiptScreen() }
-        composable(AppRoute.SupportAccidentReport.route) { AccidentReportScreen() }
+        composable(AppRoute.SupportBranchGuideTicket.route) {
+            BranchGuideTicketScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.SupportCertificateIssue.route) {
+            CertificateIssueScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.SupportMediaPassbookIssue.route) {
+            MediaPassbookIssueScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.SupportEReceipt.route) {
+            EReceiptScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.SupportAccidentReport.route) {
+            AccidentReportScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 11. 멤버십 (membership)
         composable(AppRoute.MembershipKbStarClub.route) { KbStarClubScreen() }
