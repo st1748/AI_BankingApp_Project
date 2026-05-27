@@ -23,6 +23,10 @@ fun AIHomeScreen(
     // AI의 상태(Idle, Loading, ShowTop3)를 실시간 관찰
     val uiState by viewModel.uiState.collectAsState()
 
+    LaunchedEffect(Unit) {
+        viewModel.toggleAiMode(true)
+    }
+
     Scaffold(
         topBar = {
             TopBar(
