@@ -57,13 +57,18 @@ fun TmoneyCharghingScreen(
         TmoneyTopBar(
             onBackClick = { navController.popBackStack() },
             onHomeClick = {
-                navController.navigate(
-                    if (isAiMode) AppRoute.AIHome.route else AppRoute.NormalHome.route
-                ) {
-                    popUpTo(navController.graph.startDestinationId) {
-                        inclusive = false
+                if (isAiMode) {
+                    navController.navigate(AppRoute.AIHome.route) {
+                        // AIHome으로 가면서 그 사이의 백스택 밀기
+                        popUpTo(AppRoute.AIHome.route) { inclusive = true }
+                        launchSingleTop = true
                     }
-                    launchSingleTop = true
+                } else {
+                    navController.navigate(AppRoute.NormalHome.route) {
+                        // NormalHome으로 가면서 그 사이의 백스택을 싹 밀기
+                        popUpTo(AppRoute.NormalHome.route) { inclusive = true }
+                        launchSingleTop = true
+                    }
                 }
             },
             onMenuClick = { navController.navigate(AppRoute.MainMenu.route) }
