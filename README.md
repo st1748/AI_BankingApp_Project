@@ -22,7 +22,7 @@
 
 #### 커밋 예시
 
-- git commit -m "#이슈 번호 [커밋 태그] 커밋 내용"
-  - `ex ) git commit -m "#1 [FEAT] 이체페이지 UI 구현"`
+- git commit -m "[커밋 태그] 커밋 내용"
+  - `ex ) git commit -m "[FEAT] 이체페이지 UI 구현"`
 
 <br>
