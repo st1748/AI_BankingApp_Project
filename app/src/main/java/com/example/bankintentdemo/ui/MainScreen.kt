@@ -161,7 +161,9 @@ fun MainScreen() {
         composable(AppRoute.WalletPublicAlert.route) { PublicAlertScreen() }
 
         // 8. 혜택 (benefit)
-        composable(AppRoute.BenefitEvent.route) { EventScreen() }
+        composable(AppRoute.BenefitEvent.route) {
+            EventScreen(navController = navController, viewModel = mainViewModel)
+        }
         composable(AppRoute.BenefitCouponBox.route) {
             CouponBoxScreen(navController = navController, viewModel = mainViewModel)
         }
