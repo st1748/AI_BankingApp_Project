@@ -114,7 +114,7 @@ private fun EventTopBar(
         Text(
             modifier = Modifier.weight(1f),
             text = "이벤트",
-            fontSize = 25.sp,
+            fontSize = 20.sp,
             fontWeight = FontWeight.Medium,
             color = Color(0xFF20242A)
         )
@@ -201,7 +201,7 @@ private fun EventTabText(
     ) {
         Text(
             text = text,
-            fontSize = 21.sp,
+            fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             color = if (selected) Color(0xFF20242A) else Color(0xFF7C8289)
         )
@@ -245,7 +245,7 @@ private fun EventChip(
             )
             .padding(horizontal = 24.dp, vertical = 12.dp),
         text = text,
-        fontSize = 20.sp,
+        fontSize = 15.sp,
         fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal,
         color = if (selected) Color(0xFF20242A) else Color(0xFF8B939B)
     )
@@ -261,7 +261,7 @@ private fun RecommendedTitle() {
     ) {
         Text(
             text = "추천해요",
-            fontSize = 24.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
@@ -333,20 +333,20 @@ private fun EventCard(
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = title,
-                fontSize = 23.sp,
+                fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF20242A)
             )
             Spacer(modifier = Modifier.height(7.dp))
             Text(
                 text = description,
-                fontSize = 19.sp,
+                fontSize = 14.sp,
                 color = Color(0xFF3D4147)
             )
             Spacer(modifier = Modifier.height(17.dp))
             Text(
                 text = period,
-                fontSize = 18.sp,
+                fontSize = 13.sp,
                 color = Color(0xFF727981)
             )
         }
@@ -394,7 +394,7 @@ private fun EventIllustration(
         ) {
             Text(
                 text = badgeText,
-                fontSize = 10.sp,
+                fontSize = 8.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
@@ -412,7 +412,7 @@ private fun MoreButton() {
     ) {
         Text(
             text = "+ 더보기",
-            fontSize = 24.sp,
+            fontSize = 18.sp,
             color = Color(0xFF20242A)
         )
     }
