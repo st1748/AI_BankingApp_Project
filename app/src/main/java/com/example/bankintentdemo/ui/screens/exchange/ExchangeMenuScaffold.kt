@@ -70,7 +70,7 @@ internal fun ExchangeMenuScaffold(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(top = 14.dp)
+                .padding(top = 4.dp)
         ) {
             menus.forEach { menu ->
                 ExchangeMenuRow(text = menu)
@@ -135,7 +135,7 @@ private fun ExchangeMenuRow(text: String) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(92.dp)
+                .height(72.dp)
                 .padding(horizontal = 22.dp)
                 .clickable { },
             verticalAlignment = Alignment.CenterVertically
