@@ -89,13 +89,13 @@ fun UtilityBillScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 28.dp)
         ) {
-            Spacer(modifier = Modifier.height(28.dp))
+            Spacer(modifier = Modifier.height(22.dp))
             UtilitySegment()
-            Spacer(modifier = Modifier.height(44.dp))
+            Spacer(modifier = Modifier.height(34.dp))
             TaxSummaryCard()
-            Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(22.dp))
             SectionTitle("세금")
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(18.dp))
             UtilityGrid(
                 listOf(
                     UtilityItem("국세", Icons.Outlined.Receipt, Color(0xFFE9F6FF)),
@@ -109,9 +109,9 @@ fun UtilityBillScreen(
                     UtilityItem("4대보험료", Icons.Outlined.BusinessCenter, Color(0xFFF4F6F8))
                 )
             )
-            Spacer(modifier = Modifier.height(42.dp))
+            Spacer(modifier = Modifier.height(32.dp))
             LivingUtilityHeader()
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(18.dp))
             UtilityGrid(
                 listOf(
                     UtilityItem("지로", Icons.Outlined.Description, Color(0xFFF4F6F8)),
@@ -122,13 +122,13 @@ fun UtilityBillScreen(
                     UtilityItem("등록금", Icons.Outlined.School, Color(0xFFEFF3FF))
                 )
             )
-            Spacer(modifier = Modifier.height(36.dp))
+            Spacer(modifier = Modifier.height(22.dp))
             ScanPaymentButton()
-            Spacer(modifier = Modifier.height(18.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             BottomActionButtons()
-            Spacer(modifier = Modifier.height(42.dp))
+            Spacer(modifier = Modifier.height(32.dp))
             TaxNoticeBanner()
-            Spacer(modifier = Modifier.height(44.dp))
+            Spacer(modifier = Modifier.height(34.dp))
         }
     }
 }
@@ -158,7 +158,7 @@ private fun UtilityTopBar(
         Text(
             modifier = Modifier.weight(1f),
             text = "공과금 납부/조회",
-            fontSize = 25.sp,
+            fontSize = 22.sp,
             fontWeight = FontWeight.Medium,
             color = Color(0xFF20242A)
         )
@@ -198,7 +198,7 @@ private fun UtilitySegment() {
                 .background(Color.White)
                 .padding(vertical = 18.dp),
             text = "납부하기",
-            fontSize = 21.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A),
             textAlign = androidx.compose.ui.text.style.TextAlign.Center
@@ -208,7 +208,7 @@ private fun UtilitySegment() {
                 .weight(1f)
                 .padding(vertical = 18.dp),
             text = "납부 내역 조회",
-            fontSize = 21.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF7B8288),
             textAlign = androidx.compose.ui.text.style.TextAlign.Center
@@ -223,28 +223,28 @@ private fun TaxSummaryCard() {
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
             .background(Color(0xFFF7F8FA))
-            .padding(horizontal = 24.dp, vertical = 30.dp)
+            .padding(horizontal = 24.dp, vertical = 24.dp)
     ) {
         Text(
             text = "납부할 세금을 확인해보세요",
-            fontSize = 25.sp,
+            fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
-        Spacer(modifier = Modifier.height(14.dp))
+        Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = "2026.05.27. 19:20 기준",
-            fontSize = 18.sp,
+            fontSize = 15.sp,
             color = Color(0xFF8B939B)
         )
-        Spacer(modifier = Modifier.height(28.dp))
+        Spacer(modifier = Modifier.height(22.dp))
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(10.dp))
                 .background(Color.White)
                 .border(1.dp, Color(0xFFE1E4E8), RoundedCornerShape(10.dp))
-                .padding(horizontal = 24.dp, vertical = 22.dp)
+                .padding(horizontal = 24.dp, vertical = 16.dp)
         ) {
             TaxLookupRow("국세")
             TaxLookupRow("지방세")
@@ -257,16 +257,16 @@ private fun TaxSummaryCard() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 18.dp),
+                    .padding(top = 12.dp),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "더보기", fontSize = 20.sp, color = Color(0xFF7B8288))
+                Text(text = "더보기", fontSize = 17.sp, color = Color(0xFF7B8288))
                 Spacer(modifier = Modifier.width(6.dp))
-                Text(text = "⌄", fontSize = 26.sp, color = Color(0xFF8B939B))
+                Text(text = "⌄", fontSize = 23.sp, color = Color(0xFF8B939B))
             }
         }
-        Spacer(modifier = Modifier.height(22.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
                 modifier = Modifier
@@ -275,12 +275,12 @@ private fun TaxSummaryCard() {
                     .background(Color(0xFF9AA2AA)),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = "!", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                Text(text = "!", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color.White)
             }
             Spacer(modifier = Modifier.width(10.dp))
             Text(
                 text = "주민등록번호 기준으로 조회되는 내역만 보여드려요.",
-                fontSize = 17.sp,
+                fontSize = 14.sp,
                 color = Color(0xFF7B8288)
             )
         }
@@ -292,16 +292,16 @@ private fun TaxLookupRow(title: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 15.dp),
+            .padding(vertical = 11.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             modifier = Modifier.weight(1f),
             text = title,
-            fontSize = 21.sp,
+            fontSize = 18.sp,
             color = Color(0xFF555C63)
         )
-        Text(text = "조회", fontSize = 20.sp, color = Color(0xFF7B8288))
+        Text(text = "조회", fontSize = 17.sp, color = Color(0xFF7B8288))
         Icon(
             modifier = Modifier.size(28.dp),
             imageVector = Icons.Outlined.ChevronRight,
@@ -315,7 +315,7 @@ private fun TaxLookupRow(title: String) {
 private fun SectionTitle(title: String) {
     Text(
         text = title,
-        fontSize = 25.sp,
+        fontSize = 22.sp,
         fontWeight = FontWeight.Bold,
         color = Color(0xFF20242A)
     )
@@ -330,11 +330,11 @@ private fun LivingUtilityHeader() {
         Text(
             modifier = Modifier.weight(1f),
             text = "생활공과금",
-            fontSize = 25.sp,
+            fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
-        Text(text = "자주쓰는 지로관리", fontSize = 18.sp, color = Color(0xFF8B939B))
+        Text(text = "자주쓰는 지로관리", fontSize = 15.sp, color = Color(0xFF8B939B))
         Icon(
             modifier = Modifier.size(24.dp),
             imageVector = Icons.Outlined.ChevronRight,
@@ -352,7 +352,7 @@ private data class UtilityItem(
 
 @Composable
 private fun UtilityGrid(items: List<UtilityItem>) {
-    Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
+    Column(verticalArrangement = Arrangement.spacedBy(18.dp)) {
         items.chunked(2).forEach { rowItems ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -372,7 +372,7 @@ private fun UtilityGrid(items: List<UtilityItem>) {
 @Composable
 private fun UtilityMenuItem(modifier: Modifier, item: UtilityItem) {
     Row(
-        modifier = modifier.height(56.dp),
+        modifier = modifier.height(50.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
@@ -400,7 +400,7 @@ private fun UtilityMenuItem(modifier: Modifier, item: UtilityItem) {
         Spacer(modifier = Modifier.width(14.dp))
         Text(
             text = item.title,
-            fontSize = 21.sp,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF20242A)
         )
@@ -412,7 +412,7 @@ private fun ScanPaymentButton() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(54.dp)
+            .height(50.dp)
             .border(1.dp, Color(0xFF8B939B), RoundedCornerShape(2.dp)),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
@@ -426,7 +426,7 @@ private fun ScanPaymentButton() {
         Spacer(modifier = Modifier.width(10.dp))
         Text(
             text = "고지서 촬영으로 간편 납부",
-            fontSize = 20.sp,
+            fontSize = 17.sp,
             color = Color(0xFF30343A)
         )
     }
@@ -447,11 +447,11 @@ private fun BottomActionButtons() {
 private fun UtilityOutlineButton(modifier: Modifier, text: String) {
     Box(
         modifier = modifier
-            .height(58.dp)
+            .height(52.dp)
             .border(1.dp, Color(0xFF8B939B), RoundedCornerShape(2.dp)),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = text, fontSize = 21.sp, color = Color(0xFF30343A))
+        Text(text = text, fontSize = 18.sp, color = Color(0xFF30343A))
     }
 }
 
@@ -461,19 +461,19 @@ private fun TaxNoticeBanner() {
         modifier = Modifier
             .fillMaxWidth()
             .background(Color(0xFFEAF7F4))
-            .padding(horizontal = 28.dp, vertical = 30.dp),
+            .padding(horizontal = 28.dp, vertical = 24.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = "자동차세, 재산세 등",
-                fontSize = 19.sp,
+                fontSize = 16.sp,
                 color = Color(0xFF7B8288)
             )
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "지방세·세외수입 알림 받으세요",
-                fontSize = 22.sp,
+                fontSize = 19.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF20242A)
             )
@@ -487,7 +487,7 @@ private fun TaxNoticeBanner() {
         ) {
             Text(
                 text = "TAX",
-                fontSize = 18.sp,
+                fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
             )
