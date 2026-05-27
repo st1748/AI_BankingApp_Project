@@ -144,8 +144,12 @@ fun MainScreen() {
         composable(AppRoute.UtilityBill.route) { UtilityBillScreen() }
 
         // 5. 자산관리 (asset)
-        composable(AppRoute.AssetExpense.route) { ExpenseScreen() }
-        composable(AppRoute.AssetMyDataSetting.route) { MyDataSettingScreen() }
+        composable(AppRoute.AssetExpense.route) {
+            ExpenseScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.AssetMyDataSetting.route) {
+            MyDataSettingScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 6. 외환 (exchange)
         composable(AppRoute.ExchangeRate.route) { ExchangeRateScreen() }
