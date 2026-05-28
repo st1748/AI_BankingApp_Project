@@ -241,6 +241,8 @@ fun MainScreen() {
         }
 
         // 12. 사업자 (business)
-        composable(AppRoute.BusinessBossPlus.route) { BossPlusScreen() }
+        composable(AppRoute.BusinessBossPlus.route) {
+            BossPlusScreen(navController = navController, viewModel = mainViewModel)
+        }
     }
 }
