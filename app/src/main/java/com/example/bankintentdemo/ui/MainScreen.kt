@@ -76,10 +76,24 @@ import com.example.bankintentdemo.ui.screens.membership.KbYouthClubScreen
 // 12. 사업자 (business) 화면 임포트
 import com.example.bankintentdemo.ui.screens.business.BossPlusScreen
 
+// ai모델 관련 임포트
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.DisposableEffect
+import com.example.bankintentdemo.model.SlmModelManager
+
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
     val mainViewModel: MainViewModel = viewModel()
+
+    // 앱이 실행될 때 AI 엔진(ONNX)을 메모리에 딱 한 번 올림
+    val context = LocalContext.current
+    val modelManager = remember { SlmModelManager(context) }
+    // 메모리 누수를 방지 위해 안전하게 닫음
+    DisposableEffect(Unit) {
+        onDispose { modelManager.close() }
+    }
 
     NavHost(
         navController = navController,
@@ -90,7 +104,11 @@ fun MainScreen() {
             NormalHomeScreen(navController = navController, viewModel = mainViewModel)
         }
         composable(AppRoute.AIHome.route) {
-            AIHomeScreen(navController = navController, viewModel = mainViewModel)
+            AIHomeScreen(
+                navController = navController,
+                viewModel = mainViewModel,
+                modelManager = modelManager
+            )
         }
         composable(AppRoute.MainMenu.route) {
             MenuScreen(navController = navController)
@@ -118,53 +136,113 @@ fun MainScreen() {
         composable(AppRoute.InquiryAccountManagement.route) { AccountManagementScreen() }
 
         // 3. 이체/출금 (transfer)
-        composable(AppRoute.TransferMain.route) { TransferScreen() }
-        composable(AppRoute.TransferAutomatic.route) { AutomaticTransferScreen() }
-        composable(AppRoute.TransferManagement.route) { TransferManagementScreen() }
+        composable(AppRoute.TransferMain.route) {
+            TransferScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.TransferAutomatic.route) {
+            AutomaticTransferScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.TransferManagement.route) {
+            TransferManagementScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 4. 공과금 (utility)
-        composable(AppRoute.UtilityBill.route) { UtilityBillScreen() }
+        composable(AppRoute.UtilityBill.route) {
+            UtilityBillScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 5. 자산관리 (asset)
-        composable(AppRoute.AssetExpense.route) { ExpenseScreen() }
-        composable(AppRoute.AssetMyDataSetting.route) { MyDataSettingScreen() }
+        composable(AppRoute.AssetExpense.route) {
+            ExpenseScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.AssetMyDataSetting.route) {
+            MyDataSettingScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 6. 외환 (exchange)
-        composable(AppRoute.ExchangeRate.route) { ExchangeRateScreen() }
-        composable(AppRoute.ExchangeCurrency.route) { CurrencyExchangeScreen() }
-        composable(AppRoute.ExchangeOverseasRemittance.route) { OverseasRemittanceScreen() }
-        composable(AppRoute.ExchangeDomesticForeign.route) { DomesticForeignTransferScreen() }
-        composable(AppRoute.ExchangeManagement.route) { ExchangeManagementScreen() }
+        composable(AppRoute.ExchangeRate.route) {
+            ExchangeRateScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.ExchangeCurrency.route) {
+            CurrencyExchangeScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.ExchangeOverseasRemittance.route) {
+            OverseasRemittanceScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.ExchangeDomesticForeign.route) {
+            DomesticForeignTransferScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.ExchangeManagement.route) {
+            ExchangeManagementScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 7. 지갑 (wallet)
-        composable(AppRoute.WalletMobileId.route) { MobileIdScreen() }
-        composable(AppRoute.WalletPayment.route) { PaymentScreen() }
-        composable(AppRoute.WalletNft.route) { NftScreen() }
-        composable(AppRoute.WalletPublicAlert.route) { PublicAlertScreen() }
+        composable(AppRoute.WalletMobileId.route) {
+            MobileIdScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.WalletPayment.route) {
+            PaymentScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.WalletNft.route) {
+            NftScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.WalletPublicAlert.route) {
+            PublicAlertScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 8. 혜택 (benefit)
-        composable(AppRoute.BenefitEvent.route) { EventScreen() }
-        composable(AppRoute.BenefitCouponBox.route) { CouponBoxScreen() }
+        composable(AppRoute.BenefitEvent.route) {
+            EventScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.BenefitCouponBox.route) {
+            CouponBoxScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 9. 생활 (life)
-        composable(AppRoute.LifeTrainTicket.route) { TrainTicketScreen() }
-        composable(AppRoute.LifePassportRenewal.route) { PassportRenewalScreen() }
-        composable(AppRoute.LifeSmartAirTicket.route) { SmartAirTicketScreen() }
-        composable(AppRoute.LifeTmoneyCharging.route) { TmoneyCharghingScreen() }
+        composable(AppRoute.LifeTrainTicket.route) {
+            TrainTicketScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.LifePassportRenewal.route) {
+            PassportRenewalScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.LifeSmartAirTicket.route) {
+            SmartAirTicketScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.LifeTmoneyCharging.route) {
+            TmoneyCharghingScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 10. 모바일업무지원 (support)
-        composable(AppRoute.SupportBranchGuideTicket.route) { BranchGuideTicketScreen() }
-        composable(AppRoute.SupportCertificateIssue.route) { CertificateIssueScreen() }
-        composable(AppRoute.SupportMediaPassbookIssue.route) { MediaPassbookIssueScreen() }
-        composable(AppRoute.SupportEReceipt.route) { EReceiptScreen() }
-        composable(AppRoute.SupportAccidentReport.route) { AccidentReportScreen() }
+        composable(AppRoute.SupportBranchGuideTicket.route) {
+            BranchGuideTicketScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.SupportCertificateIssue.route) {
+            CertificateIssueScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.SupportMediaPassbookIssue.route) {
+            MediaPassbookIssueScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.SupportEReceipt.route) {
+            EReceiptScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.SupportAccidentReport.route) {
+            AccidentReportScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 11. 멤버십 (membership)
-        composable(AppRoute.MembershipKbStarClub.route) { KbStarClubScreen() }
-        composable(AppRoute.MembershipSalaryClub.route) { SalaryClubScreen() }
-        composable(AppRoute.MembershipKbYouthClub.route) { KbYouthClubScreen() }
+        composable(AppRoute.MembershipKbStarClub.route) {
+            KbStarClubScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.MembershipSalaryClub.route) {
+            SalaryClubScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.MembershipKbYouthClub.route) {
+            KbYouthClubScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 12. 사업자 (business)
-        composable(AppRoute.BusinessBossPlus.route) { BossPlusScreen() }
+        composable(AppRoute.BusinessBossPlus.route) {
+            BossPlusScreen(navController = navController, viewModel = mainViewModel)
+        }
     }
 }

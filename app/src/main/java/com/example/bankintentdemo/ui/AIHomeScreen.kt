@@ -1,53 +1,90 @@
 package com.example.bankintentdemo.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.bankintentdemo.model.SlmModelManager
 import com.example.bankintentdemo.navigation.AppRoute
+import com.example.bankintentdemo.ui.IntentUiState
+import com.example.bankintentdemo.ui.MainViewModel
 import com.example.bankintentdemo.ui.components.*
 
 @Composable
-fun AIHomeScreen(navController: NavController, viewModel: MainViewModel) {
-    var currentPrompt by remember { mutableStateOf("") }
+fun AIHomeScreen(
+    navController: NavController,
+    viewModel: MainViewModel,
+    modelManager: SlmModelManager // AI 엔진 주입
+) {
+    // AI의 상태(Idle, Loading, ShowTop3)를 실시간 관찰
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.toggleAiMode(true)
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.toggleAiMode(true)
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.toggleAiMode(true)
+    }
 
     Scaffold(
         topBar = {
             TopBar(
                 isAiMode = true,
-                onAiModeToggle = { if (!it) navController.navigate(AppRoute.NormalHome.route) {
-                    popUpTo(AppRoute.AIHome.route) { inclusive = true }
-                } },
+                onAiModeToggle = { enabled ->
+                    if (!enabled) {
+                        viewModel.toggleAiMode(false)
+                        navController.navigate(AppRoute.NormalHome.route) {
+                            popUpTo(AppRoute.AIHome.route) { inclusive = true }
+                        }
+                    }
+                },
                 onMenuClick = { navController.navigate(AppRoute.MainMenu.route) }
             )
-        },
-        // bottomBar = { BottomNavBar(navController) } // AI 모드에서도 하단바는 그대로 유지 (연속성)
+        }
     ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            // 1. 일반 홈과 동일한 위치를 유지하기 위해 광고 배너 배치
+            // 광고 배너 배치 넣을지 뺄지 결정 못함
             // item { AdBannerSection() }
 
-            // 2. 일반 홈과 동일한 통장 카드 섹션
+            // 1. 통장 섹션
             item { MainAccountSection(navController) }
 
-            // 3. 통장 카드 바로 아래 프롬프트창 배치
+            // 2. 프롬프트 창: 마이크/전송 버튼을 누르면 뷰모델에 분석 요청
             item {
-                PromptInputBar(onSendClick = { input -> currentPrompt = input })
+                PromptInputBar(onSendClick = { input ->
+                    viewModel.analyzeUserQuery(input, modelManager)
+                })
             }
 
-            // 4. AI 분석 결과 Top 3 (프롬프트 입력 시에만 나타남)
-            if (currentPrompt.isNotEmpty()) {
-                item {
-                    Top3ResultCard(navController = navController, prompt = currentPrompt)
+            // 3. AI 분석 상태에 따른 화면 변화
+            when (val state = uiState) {
+                is IntentUiState.Loading -> {
+                    item {
+                        Box(modifier = Modifier.fillMaxWidth().padding(32.dp), contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator(color = androidx.compose.ui.graphics.Color(0xFF0075FF))
+                        }
+                    }
                 }
+                is IntentUiState.ShowTop3 -> {
+                    item {
+                        // 결과가 나오면 리스트를 카드에 넘김
+                        Top3ResultCard(navController = navController, top3List = state.top3List)
+                    }
+                }
+                else -> { /* 아무것도 입력 안했을 땐 빈 화면 유지 */ }
             }
         }
     }
