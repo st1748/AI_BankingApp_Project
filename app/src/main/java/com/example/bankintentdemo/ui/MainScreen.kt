@@ -131,9 +131,15 @@ fun MainScreen() {
         composable(AppRoute.ProductGoldSilver.route) { GoldSilverScreen() }
 
         // 2. 조회 (inquiry)
-        composable(AppRoute.InquiryAllAccounts.route) { AllAccountsScreen() }
-        composable(AppRoute.InquiryIntegratedHistory.route) { IntegratedHistoryScreen() }
-        composable(AppRoute.InquiryAccountManagement.route) { AccountManagementScreen() }
+        composable(AppRoute.InquiryAllAccounts.route) {
+            AllAccountsScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.InquiryIntegratedHistory.route) {
+            IntegratedHistoryScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.InquiryAccountManagement.route) {
+            AccountManagementScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 3. 이체/출금 (transfer)
         composable(AppRoute.TransferMain.route) {
