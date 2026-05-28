@@ -200,9 +200,15 @@ fun MainScreen() {
         }
 
         // 11. 멤버십 (membership)
-        composable(AppRoute.MembershipKbStarClub.route) { KbStarClubScreen() }
-        composable(AppRoute.MembershipSalaryClub.route) { SalaryClubScreen() }
-        composable(AppRoute.MembershipKbYouthClub.route) { KbYouthClubScreen() }
+        composable(AppRoute.MembershipKbStarClub.route) {
+            KbStarClubScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.MembershipSalaryClub.route) {
+            SalaryClubScreen(navController = navController, viewModel = mainViewModel)
+        }
+        composable(AppRoute.MembershipKbYouthClub.route) {
+            KbYouthClubScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 12. 사업자 (business)
         composable(AppRoute.BusinessBossPlus.route) { BossPlusScreen() }
