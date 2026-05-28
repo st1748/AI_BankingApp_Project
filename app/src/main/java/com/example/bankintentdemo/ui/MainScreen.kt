@@ -141,7 +141,9 @@ fun MainScreen() {
         composable(AppRoute.TransferManagement.route) { TransferManagementScreen() }
 
         // 4. 공과금 (utility)
-        composable(AppRoute.UtilityBill.route) { UtilityBillScreen() }
+        composable(AppRoute.UtilityBill.route) {
+            UtilityBillScreen(navController = navController, viewModel = mainViewModel)
+        }
 
         // 5. 자산관리 (asset)
         composable(AppRoute.AssetExpense.route) {
