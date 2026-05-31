@@ -7,8 +7,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.bankintentdemo.navigation.AppRoute
 
-// 1. 상품가입관리 (product) 화면 임포트
-import com.example.bankintentdemo.ui.screens.product.RecommendProductScreen
+// 1. 상품가입관리 (product) 화면 임포트 -> ProductContainerScreen에서 기존 12개 동적으로 처리
+/* import com.example.bankintentdemo.ui.screens.product.RecommendProductScreen
 import com.example.bankintentdemo.ui.screens.product.DepositSavingScreen
 import com.example.bankintentdemo.ui.screens.product.LoanScreen
 import com.example.bankintentdemo.ui.screens.product.CheckingAccountScreen
@@ -19,7 +19,8 @@ import com.example.bankintentdemo.ui.screens.product.IsaScreen
 import com.example.bankintentdemo.ui.screens.product.ForeignDepositScreen
 import com.example.bankintentdemo.ui.screens.product.InsuranceScreen
 import com.example.bankintentdemo.ui.screens.product.TrustScreen
-import com.example.bankintentdemo.ui.screens.product.GoldSilverScreen
+import com.example.bankintentdemo.ui.screens.product.GoldSilverScreen */
+import com.example.bankintentdemo.ui.screens.product.ProductContainerScreen
 
 // 2. 조회 (inquiry) 화면 임포트
 import com.example.bankintentdemo.ui.screens.inquiry.AllAccountsScreen
@@ -114,21 +115,45 @@ fun MainScreen() {
             MenuScreen(navController = navController)
         }
 
-        // --- 상세 메뉴 뷰 (총 45개 분류 라벨 매핑 완료) ---
+        // --- 상세 메뉴 뷰 (총 45개 분류 라벨 매핑) ---
 
-        // 1. 상품가입관리 (product)
-        composable(AppRoute.ProductRecommend.route) { RecommendProductScreen() }
-        composable(AppRoute.ProductDepositSaving.route) { DepositSavingScreen() }
-        composable(AppRoute.ProductLoan.route) { LoanScreen() }
-        composable(AppRoute.ProductCheckingAccount.route) { CheckingAccountScreen() }
-        composable(AppRoute.ProductRetirementPension.route) { RetirementPensionScreen() }
-        composable(AppRoute.ProductFund.route) { FundScreen() }
-        composable(AppRoute.ProductSubscriptionBond.route) { SubscriptionBondScreen() }
-        composable(AppRoute.ProductIsa.route) { IsaScreen() }
-        composable(AppRoute.ProductForeignDeposit.route) { ForeignDepositScreen() }
-        composable(AppRoute.ProductInsurance.route) { InsuranceScreen() }
-        composable(AppRoute.ProductTrust.route) { TrustScreen() }
-        composable(AppRoute.ProductGoldSilver.route) { GoldSilverScreen() }
+        // 1. 상품가입관리 (product) - 탭 인덱스 매핑 (0~11)
+        composable(AppRoute.ProductRecommend.route) {
+            ProductContainerScreen(navController = navController, viewModel = mainViewModel, initialTab = 0)
+        }
+        composable(AppRoute.ProductDepositSaving.route) {
+            ProductContainerScreen(navController = navController, viewModel = mainViewModel, initialTab = 1)
+        }
+        composable(AppRoute.ProductLoan.route) {
+            ProductContainerScreen(navController = navController, viewModel = mainViewModel, initialTab = 2)
+        }
+        composable(AppRoute.ProductCheckingAccount.route) {
+            ProductContainerScreen(navController = navController, viewModel = mainViewModel, initialTab = 3)
+        }
+        composable(AppRoute.ProductRetirementPension.route) {
+            ProductContainerScreen(navController = navController, viewModel = mainViewModel, initialTab = 4)
+        }
+        composable(AppRoute.ProductFund.route) {
+            ProductContainerScreen(navController = navController, viewModel = mainViewModel, initialTab = 5)
+        }
+        composable(AppRoute.ProductSubscriptionBond.route) {
+            ProductContainerScreen(navController = navController, viewModel = mainViewModel, initialTab = 6)
+        }
+        composable(AppRoute.ProductIsa.route) {
+            ProductContainerScreen(navController = navController, viewModel = mainViewModel, initialTab = 7)
+        }
+        composable(AppRoute.ProductForeignDeposit.route) {
+            ProductContainerScreen(navController = navController, viewModel = mainViewModel, initialTab = 8)
+        }
+        composable(AppRoute.ProductInsurance.route) {
+            ProductContainerScreen(navController = navController, viewModel = mainViewModel, initialTab = 9)
+        }
+        composable(AppRoute.ProductTrust.route) {
+            ProductContainerScreen(navController = navController, viewModel = mainViewModel, initialTab = 10)
+        }
+        composable(AppRoute.ProductGoldSilver.route) {
+            ProductContainerScreen(navController = navController, viewModel = mainViewModel, initialTab = 11)
+        }
 
         // 2. 조회 (inquiry)
         composable(AppRoute.InquiryAllAccounts.route) {
