@@ -21,10 +21,11 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun PromptInputBar(
     onSendClick: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    initialText: String = "" // 개발자 화면에서 마지막 입력 문장을 미리 채울 때 사용
 ) {
     // 입력된 텍스트 상태 관리
-    var inputText by remember { mutableStateOf("") }
+    var inputText by remember { mutableStateOf(initialText) }
 
     // 키보드 및 포커스 제어 매니저
     val keyboardController = LocalSoftwareKeyboardController.current

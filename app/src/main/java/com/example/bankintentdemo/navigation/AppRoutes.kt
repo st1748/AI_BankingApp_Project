@@ -5,6 +5,7 @@ sealed class AppRoute(val route: String) {
     object NormalHome : AppRoute("normal_home")
     object AIHome : AppRoute("ai_home")
     object MainMenu : AppRoute("main_menu")
+    object DeveloperMode : AppRoute("developer_mode") // XAI 개발자 모드
 
     // 모델 분류 라벨 45개에 매칭될 상세 메뉴 object 라우트
     // product : 상품가입관리
