@@ -114,6 +114,13 @@ fun MainScreen() {
         composable(AppRoute.MainMenu.route) {
             MenuScreen(navController = navController)
         }
+        composable(AppRoute.DeveloperMode.route) {
+            DeveloperScreen(
+                navController = navController,
+                viewModel = mainViewModel,
+                modelManager = modelManager
+            )
+        }
 
         // --- 상세 메뉴 뷰 (총 45개 분류 라벨 매핑) ---
 

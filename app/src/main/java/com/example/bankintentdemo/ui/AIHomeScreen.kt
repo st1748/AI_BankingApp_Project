@@ -27,14 +27,6 @@ fun AIHomeScreen(
         viewModel.toggleAiMode(true)
     }
 
-    LaunchedEffect(Unit) {
-        viewModel.toggleAiMode(true)
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.toggleAiMode(true)
-    }
-
     Scaffold(
         topBar = {
             TopBar(
@@ -81,7 +73,12 @@ fun AIHomeScreen(
                 is IntentUiState.ShowTop3 -> {
                     item {
                         // 결과가 나오면 리스트를 카드에 넘김
-                        Top3ResultCard(navController = navController, top3List = state.top3List)
+                        Top3ResultCard(
+                            navController = navController,
+                            top3List = state.top3List,
+                            explanation = state.explanation,
+                            onDeveloperClick = { navController.navigate(AppRoute.DeveloperMode.route) }
+                        )
                     }
                 }
                 else -> { /* 아무것도 입력 안했을 땐 빈 화면 유지 */ }
