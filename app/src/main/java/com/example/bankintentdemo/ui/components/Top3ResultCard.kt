@@ -13,11 +13,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.bankintentdemo.model.Explanation
 import com.example.bankintentdemo.model.PredictionResult
 import com.example.bankintentdemo.navigation.AppRoute
 
 @Composable
-fun Top3ResultCard(navController: NavController, top3List: List<PredictionResult>) {
+fun Top3ResultCard(
+    navController: NavController,
+    top3List: List<PredictionResult>,
+    explanation: Explanation? = null,          // 판단 근거 (없으면 기존처럼 결과만 표시)
+    onDeveloperClick: (() -> Unit)? = null,    // 개발자 모드로 이동
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -34,6 +40,19 @@ fun Top3ResultCard(navController: NavController, top3List: List<PredictionResult
                 style = MaterialTheme.typography.titleMedium
             )
             Spacer(modifier = Modifier.height(12.dp))
+
+            // 1순위 결과의 판단 근거: 기여도가 큰 어절을 색 농도로 강조
+            if (explanation != null && explanation.contributions.isNotEmpty()) {
+                Text(
+                    text = "이렇게 판단했어요",
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.Gray
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                ContributionHighlights(words = explanation.words, phi = explanation.contributions[0])
+                Spacer(modifier = Modifier.height(8.dp))
+            }
 
             top3List.forEachIndexed { index, result ->
                 // 1. 모델의 숫자 결과(intentIndex)를 한글 이름과 네비게이션 주소로 변환
@@ -87,9 +106,25 @@ fun Top3ResultCard(navController: NavController, top3List: List<PredictionResult
                     HorizontalDivider(color = Color(0xFFF0F2F5))
                 }
             }
+
+            if (onDeveloperClick != null) {
+                TextButton(
+                    onClick = onDeveloperClick,
+                    modifier = Modifier.align(Alignment.End)
+                ) {
+                    Text(
+                        text = "개발자 모드로 자세히 보기",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Gray
+                    )
+                }
+            }
         }
     }
 }
+
+// 개발자 화면 등에서 쓰는 의도 이름 (예: 23 -> "해외송금")
+fun intentTitle(index: Int): String = getIntentMapping(index).title
 
 // UI 매핑용 내부 데이터 클래스
 private data class IntentMenuMap(val title: String, val category: String, val route: AppRoute)
